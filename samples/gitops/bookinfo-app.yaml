@@ -206,16 +206,16 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: productpage-v1
+  name: productpage-stable
   labels:
     app: productpage
-    version: v1
+    version: stable
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: productpage
-      version: v1
+      version: stable
   template:
     metadata:
       annotations:
@@ -225,7 +225,7 @@ spec:
         prometheus.io/port: "9080"
       labels:
         app: productpage
-        version: v1
+        version: stable
     spec:
       serviceAccountName: bookinfo-productpage
       containers:
@@ -236,7 +236,7 @@ spec:
         - containerPort: 9080
         env:
           - name: deployment
-            value: "productpage-v1"
+            value: "productpage-stable"
           - name: namespace
             valueFrom:
               fieldRef:
@@ -293,13 +293,13 @@ spec:
         host: productpage
         port:
           number: 9080
-        subset: productpage-v1
+        subset: productpage-stable
       weight: 100
     - destination:
         host: productpage
         port:
           number: 9080
-        subset: productpage-v2
+        subset: productpage-experimental
       weight: 0
 ---
 apiVersion: networking.istio.io/v1alpha3
@@ -311,10 +311,10 @@ spec:
   subsets:
   - labels:
       app: productpage
-      version: v1
-    name: productpage-v1
+      version: stable
+    name: productpage-stable
   - labels:
       app: productpage
-      version: v2
-    name: productpage-v2
+      version: experimental
+    name: productpage-experimental
 
