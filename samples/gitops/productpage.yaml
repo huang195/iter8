@@ -22,23 +22,21 @@ metadata:
   name: productpage-stable
   labels:
     app: productpage
-    version: stable
+    version: v1
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: productpage
-      version: stable
+      version: v1
   template:
     metadata:
       annotations:
         sidecar.istio.io/inject: "true"
-        prometheus.io/scrape: "true"
-        prometheus.io/path: /metrics
-        prometheus.io/port: "9080"
       labels:
         app: productpage
-        version: stable
+        version: v1
+        iter8type: stable
     spec:
       serviceAccountName: bookinfo-productpage
       containers:
@@ -63,4 +61,3 @@ spec:
           - name: port
             value: "9080"
 ---
-
