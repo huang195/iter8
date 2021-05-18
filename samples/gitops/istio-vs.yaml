@@ -14,36 +14,41 @@
 
 #   Modified 2020, 2021 to demostrate Iter8
 ##################################################################################################
-# Istio Gateway and Destination Rule
+# Istio Virtual Service
 ##################################################################################################
 apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: bookinfo-gateway
-spec:
-  selector:
-    istio: ingressgateway # use istio default controller
-  servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "bookinfo.example.com"
----
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
+kind: VirtualService
 metadata:
   name: bookinfo
 spec:
-  host: productpage
-  subsets:
-  - labels:
-      app: productpage
-      iter8type: stable
-    name: productpage-stable
-  - labels:
-      app: productpage
-      iter8type: candidate
-    name: productpage-candidate
-
+  gateways:
+  - mesh
+  - bookinfo-gateway
+  hosts:
+  - productpage
+  - "bookinfo.example.com"
+  http:
+  - match:
+    - uri:
+        exact: /productpage
+    - uri:
+        prefix: /static
+    - uri:
+        exact: /login
+    - uri:
+        exact: /logout
+    - uri:
+        prefix: /api/v1/products
+    route:
+    - destination:
+        host: productpage
+        port:
+          number: 9080
+        subset: productpage-stable
+      weight: 100
+    - destination:
+        host: productpage
+        port:
+          number: 9080
+        subset: productpage-candidate
+      weight: 0
