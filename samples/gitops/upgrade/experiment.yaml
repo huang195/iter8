@@ -62,7 +62,7 @@ spec:
       - name: namespace # used by final action if this version is the winner
         value: default
       - name: filepath
-        value: samples/gitops/productpage.yaml
+        value: productpage.yaml
       weightObjRef:
         apiVersion: networking.istio.io/v1beta1
         kind: VirtualService
@@ -75,7 +75,7 @@ spec:
       - name: namespace # used by final action if this version is the winner
         value: default
       - name: filepath
-        value: samples/gitops/productpage-candidate.yaml
+        value: productpage-candidate.yaml
       weightObjRef:
         apiVersion: networking.istio.io/v1beta1
         kind: VirtualService
