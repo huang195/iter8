@@ -28,12 +28,14 @@ spec:
                   git clone https://${USER}:${TOKEN}@${REPO} --branch=${BRANCH};\
                   cd iter8;\
                   sed 's/candidate/stable/g' {{ .filepath }} > samples/gitops/productpage.yaml;\
+                  rm -f samples/gitops/productpage-candidate.yaml;\
+                  rm -f samples/gitops/fortio.yaml;\
                   if [ `git status -s | wc -l` != 0 ];\
                   then \
                     git checkout -b iter8_exp;\
                     git commit -a -m 'update baseline';\
                     git push -f origin iter8_exp;\
-                    curl -u${USER}:${TOKEN} -XPOST -H'Accept: application/vnd.github.v3+json' https://api.github.com/repos/huang195/iter8/pulls -d '{\"head\":\"iter8_exp\", \"base\":\"master\", \"body\":\"update baseline\", \"title\":\"Iter8 GitOps\"}';\
+                    curl -u${USER}:${TOKEN} -XPOST https://api.github.com/repos/huang195/iter8/pulls -s -d '{\"head\":\"iter8_exp\", \"base\":\"gitops\", \"body\":\"update baseline\", \"title\":\"Iter8 GitOps\"}';\
                   fi;\
                   kubectl -n {{ .namespace }} apply -f samples/gitops/istio-vs.yaml;\
                  "
