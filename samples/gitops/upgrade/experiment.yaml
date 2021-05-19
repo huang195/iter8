@@ -50,10 +50,12 @@ spec:
     objectives: # used for validating versions
     - metric: default/mean-latency
       upperLimit: 300
+    - metric: iter8-istio/error-rate
+      upperLimit: "0.01"
     requestCount: default/request-count
   duration: # product of fields determines length of the experiment
-    intervalSeconds: 5
-    iterationsPerLoop: 1
+    intervalSeconds: 10
+    iterationsPerLoop: 10
   versionInfo:
     # information about the app versions used in this experiment
     baseline:
