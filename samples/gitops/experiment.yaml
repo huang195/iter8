@@ -1,7 +1,7 @@
 apiVersion: iter8.tools/v2alpha2
 kind: Experiment
 metadata:
-  name: gitops-exp-7590
+  name: gitops-exp-17786
 spec:
   # target identifies the service under experimentation using its fully qualified name
   target: default/productpage
@@ -23,13 +23,15 @@ spec:
                   BRANCH=gitops;\
                   USER=huang195;\
                   TOKEN=`kubectl -n {{ .namespace }} get secret iter8-token -o json | jq -r .data.token | base64 -d`;\
+                  git config --global user.email 'iter8@iter8.tools';\
+                  git config --global user.name 'Mr. Iter8';\
                   git clone https://${USER}:${TOKEN}@${REPO} --branch=${BRANCH};\
-                  cd iter8;\
+                  cd iter8/samples/gitops;\
                   TMP=`mktemp`;\
                   sed 's/candidate/stable/g' {{ .filepath }} > $TMP;\
-                  mv $TMP samples/gitops/productpage.yaml;\
-                  rm -f samples/gitops/productpage-candidate.yaml;\
-                  rm -f samples/gitops/fortio.yaml;\
+                  mv $TMP productpage.yaml;\
+                  rm -f productpage-candidate.yaml;\
+                  rm -f fortio.yaml;\
                   if [ `git status -s | wc -l` != 0 ];\
                   then \
                     git checkout -b iter8_exp;\
@@ -37,7 +39,7 @@ spec:
                     git push -f origin iter8_exp;\
                     curl -u${USER}:${TOKEN} -XPOST https://api.github.com/repos/huang195/iter8/pulls -s -d '{\"head\":\"iter8_exp\", \"base\":\"gitops\", \"body\":\"update baseline\", \"title\":\"Iter8 GitOps\"}';\
                   fi;\
-                  kubectl -n {{ .namespace }} apply -f samples/gitops/istio-vs.yaml;\
+                  kubectl -n {{ .namespace }} apply -f istio-vs.yaml;\
                  "
                 ]
   criteria:
