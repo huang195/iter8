@@ -1,7 +1,7 @@
 apiVersion: iter8.tools/v2alpha2
 kind: Experiment
 metadata:
-  name: gitops-exp-19238
+  name: gitops-exp-724
 spec:
   # target identifies the service under experimentation using its fully qualified name
   target: default/productpage
@@ -27,6 +27,7 @@ spec:
                   git config --global user.name 'Hai Huang';\
                   git clone https://${USER}:${TOKEN}@${REPO} --branch=${BRANCH};\
                   cd iter8;\
+                  echo "{{ .filepath }}";\
                   sed 's/candidate/stable/g' {{ .filepath }} > samples/gitops/productpage.yaml;\
                   rm -f samples/gitops/productpage-candidate.yaml;\
                   rm -f samples/gitops/fortio.yaml;\
