@@ -7,7 +7,7 @@ spec:
   target: default/productpage
   strategy:
     # this experiment will perform an A/B test
-    testingPattern: A/B
+    testingPattern: Canary
     # this experiment will progressively shift traffic to the winning version
     deploymentPattern: Progressive
     actions:
@@ -43,10 +43,6 @@ spec:
                  "
                 ]
   criteria:
-    rewards:
-    # (business) reward metric to optimize in this experiment
-    - metric: default/user-engagement 
-      preferredDirection: High
     objectives: # used for validating versions
     - metric: default/mean-latency
       upperLimit: 300
