@@ -23,12 +23,11 @@ spec:
                   BRANCH=gitops;\
                   USER=huang195;\
                   TOKEN=`kubectl -n {{ .namespace }} get secret iter8-token -o json | jq -r .data.token | base64 -d`;\
-                  git config --global user.email 'haih@us.ibm.com';\
-                  git config --global user.name 'Hai Huang';\
                   git clone https://${USER}:${TOKEN}@${REPO} --branch=${BRANCH};\
                   cd iter8;\
-                  echo "{{ .filepath }}";\
-                  sed 's/candidate/stable/g' {{ .filepath }} > samples/gitops/productpage.yaml;\
+                  TMP=`mktemp`;\
+                  sed 's/candidate/stable/g' {{ .filepath }} > $TMP;\
+                  mv $TMP samples/gitops/productpage.yaml;\
                   rm -f samples/gitops/productpage-candidate.yaml;\
                   rm -f samples/gitops/fortio.yaml;\
                   if [ `git status -s | wc -l` != 0 ];\
