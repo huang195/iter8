@@ -50,7 +50,7 @@ spec:
     objectives: # used for validating versions
     - metric: default/mean-latency
       upperLimit: 300
-    - metric: iter8-istio/error-rate
+    - metric: default/error-rate
       upperLimit: "0.01"
     requestCount: default/request-count
   duration: # product of fields determines length of the experiment
