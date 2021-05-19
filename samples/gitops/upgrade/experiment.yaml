@@ -27,6 +27,7 @@ spec:
                   git config --global user.name 'Hai Huang';\
                   git clone https://${USER}:${TOKEN}@${REPO} --branch=${BRANCH};\
                   cd iter8;\
+                  echo "{{ .filepath }}";\
                   sed 's/candidate/stable/g' {{ .filepath }} > samples/gitops/productpage.yaml;\
                   rm -f samples/gitops/productpage-candidate.yaml;\
                   rm -f samples/gitops/fortio.yaml;\
