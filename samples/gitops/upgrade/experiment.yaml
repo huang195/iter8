@@ -18,14 +18,14 @@ spec:
           cmd: /bin/bash
           args: [ 
                  "-c",
-                 "apt-get install -y git jq;\
-                  mkdir ~/.ssh;\
-                  kubectl -n {{ .namespace }} get secret iter8-key -o json | jq -r .data.id_iter8_rsa | base64 -d > ~/.ssh/id_iter8_rsa;\
-                  chmod 400 ~/.ssh/id_iter8_rsa;\
-                  printf \"Host github.com\n  HostName github.com\n IdentityFile ~/.ssh/id_iter8_rsa\n  StrictHostKeyChecking no\n\" > ~/.ssh/config;\
-                  git config --global user.email 'iter8@iter8.tools';\
-                  git config --global user.name 'Mr. Iter8';\
-                  git clone git@github.com:huang195/iter8.git -b gitops;\
+                 "apt-get install -y git jq curl;\
+                  REPO=github.com/huang195/iter8;\
+                  BRANCH=gitops;\
+                  USER=huang195;\
+                  TOKEN=`kubectl -n {{ .namespace }} get secret iter8-token -o json | jq -r .data.token | base64 -d`;\
+                  git config --global user.email 'haih@us.ibm.com';\
+                  git config --global user.name 'Hai Huang';\
+                  git clone https://${USER}:${TOKEN}@${REPO} --branch=${BRANCH};\
                   cd iter8;\
                   sed 's/candidate/stable/g' {{ .filepath }} > samples/gitops/productpage.yaml;\
                   if [ `git status -s | wc -l` != 0 ];\
@@ -33,6 +33,7 @@ spec:
                     git checkout -b iter8_exp;\
                     git commit -a -m 'update baseline';\
                     git push -f origin iter8_exp;\
+                    curl -u${USER}:${TOKEN} -XPOST -H'Accept: application/vnd.github.v3+json' https://api.github.com/repos/huang195/iter8/pulls -d '{\"head\":\"iter8_exp\", \"base\":\"master\", \"body\":\"update baseline\", \"title\":\"Iter8 GitOps\"}';\
                   fi;\
                   kubectl -n {{ .namespace }} apply -f samples/gitops/istio-vs.yaml;\
                  "
