@@ -81,12 +81,16 @@ else if [ $arch != "darwin" ];
         exit 1
     fi
 fi
-echo "Installing Argo CD CLI"
-VERSION=$(curl --silent "https://api.github.com/repos/argoproj/argo-cd/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
-curl -sSL -o ${ITER8}/argocd https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-${arch}-amd64
-chmod +x ${ITER8}/argocd
+#echo "Installing Argo CD CLI"
+#VERSION=$(curl --silent "https://api.github.com/repos/argoproj/argo-cd/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
+#curl -sSL -o ${ITER8}/argocd https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-${arch}-amd64
+#chmod +x ${ITER8}/argocd
 
 # Step 9: Verify Argo CD installation
 echo "Verifying Argo CD installation"
 kubectl wait --for condition=ready --timeout=300s pods --all -n argocd
-echo "Your Argo CD admin password is `kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`"
+echo "Your Argo CD installation is complete"
+echo "Run the following commands: "
+echo "  1. kubectl port-forward svc/argocd-server -n argocd 8080:443'"
+echo "  2. Open a browser with URL: http://localhost:8080 with the following credential"
+echo "     Username: 'admin', Password: `kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`"
