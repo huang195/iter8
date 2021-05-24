@@ -6,7 +6,7 @@ URL_VALUE="http://$(kubectl -n istio-system get svc istio-ingressgateway -o json
 # give fortio deployment a random name so it restarts it upon a new experiment
 RANDOM=`od -An -N4 -i /dev/random`
 sed "s|value: URL_VALUE|value: $URL_VALUE|" templates/fortio.yaml |\
-sed "s|  name: fortio|  name: fortio-$RANDOM|" templates/fortio.yaml > ./fortio.yaml
+sed "s|  name: fortio|  name: fortio-$RANDOM|" > ./fortio.yaml
 
 # use a random color for a new experiment candidate
 declare -a colors=("red" "orange" "blue" "green" "yellow" "violet" "brown")
