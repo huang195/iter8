@@ -32,6 +32,7 @@ spec:
                   mv $TMP productpage.yaml;\
                   rm -f productpage-candidate.yaml;\
                   rm -f fortio.yaml;\
+                  rm -f experiment.yaml;\
                   if [ `git status -s | wc -l` != 0 ];\
                   then \
                     git checkout -b iter8_exp;\
