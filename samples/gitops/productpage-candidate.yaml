@@ -22,20 +22,20 @@ metadata:
   name: productpage-candidate
   labels:
     app: productpage
-    version: v2
+    version: v3
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: productpage
-      version: v2
+      version: v3
   template:
     metadata:
       annotations:
         sidecar.istio.io/inject: "true"
       labels:
         app: productpage
-        version: v2
+        version: v3
         iter8type: candidate
     spec:
       serviceAccountName: bookinfo-productpage
