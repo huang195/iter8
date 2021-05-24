@@ -1,9 +1,9 @@
 ##########################################################################################
 #
 # This replaces common/exec with common/webhook
-# Pros: Well-defined interface, less prone to user mistakes/attacks, very customizable- user 
-#       has flexibility to implement the webhook endpoint however he wants
-# Cons: Still a lot of parameters, more user responsiblity 
+# Pros: A lot fewer parameters, well-defined interface, less prone to user mistakes/attacks, 
+#       very customizable- user has flexibility to implement the webhook endpoint however he wants
+# Cons: More user responsiblity (iter8 could provide default images)
 #
 ##########################################################################################
 apiVersion: iter8.tools/v2alpha2
@@ -23,8 +23,9 @@ spec:
       finish:
       - task: common/webhook
         with:
-          url: https://git.default.svc
-          body: "{org:iter8-tools, repo:iter8, branch:gitops, user:gitops-demo, userEmail:iter8@iter8.tools, userName:'Mr. Iter8', token:iter8-token, dir:samples/gitops, stable:productpage.yaml, candidate:productpage-candidate.yaml, gitCommitMsg:'update baseline', gitCommitBranch:iter8_exp, gitPRTitle:'Iter8 GitOps', gitPRBody:'Update baseline'}"
+          url: https://gitops.default.svc.local
+          # most of the parameters are set up in the gitops pod
+          body: "{dir:'samples/gitops', stable:productpage.yaml, candidate:productpage-candidate.yaml}"
           auth: git-secret
   criteria:
     objectives: # used for validating versions

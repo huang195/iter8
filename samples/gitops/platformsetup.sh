@@ -58,8 +58,8 @@ kubectl apply -f https://raw.githubusercontent.com/iter8-tools/iter8-install/${T
 kubectl apply -f ${ITER8}/samples/istio/quickstart/service-monitor.yaml
 
 # Step 6: Install Iter8's mock New Relic service
-echo "Installing Iter8's mock New Relic service"
-kubectl apply -f ${ITER8}/samples/istio/quickstart/metrics-mock.yaml
+#echo "Installing Iter8's mock New Relic service"
+#kubectl apply -f ${ITER8}/samples/istio/quickstart/metrics-mock.yaml
 
 # Step 7: Verify Iter8 installation
 echo "Verifying Iter8 and add-on installation"
@@ -71,16 +71,16 @@ kubectl wait --for condition=ready --timeout=300s pods prometheus-iter8-promethe
 echo "Installing latest Argo CD"
 kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-arch=`uname | awk '{print tolower($0)}'`
-if [ $arch  = "linux" ]; 
-then
-    arch="linux"
-else if [ $arch != "darwin" ];
-    then
-        echo "\"$arch\" is not a supported archicture"
-        exit 1
-    fi
-fi
+#arch=`uname | awk '{print tolower($0)}'`
+#if [ $arch  = "linux" ]; 
+#then
+    #arch="linux"
+#else if [ $arch != "darwin" ];
+    #then
+        #echo "\"$arch\" is not a supported archicture"
+        #exit 1
+    #fi
+#fi
 #echo "Installing Argo CD CLI"
 #VERSION=$(curl --silent "https://api.github.com/repos/argoproj/argo-cd/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
 #curl -sSL -o ${ITER8}/argocd https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-${arch}-amd64

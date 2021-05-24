@@ -1,7 +1,7 @@
 ##########################################################################################
 #
 # This replaces common/exec with gitops/run, where internal details are hidden from user.
-# Pros: Better defined interface, less prone to human mistakes/attacks
+# Pros: Better defined interface, less prone to human mistakes/attacks, easier on the eyes
 # Cons: Still a lot of parameters, very rigid in terms of repo layout and actions
 #
 ##########################################################################################
