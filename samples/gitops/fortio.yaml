@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: fortio-30923
+  name: fortio-1246
 spec:
   template:
     spec:
