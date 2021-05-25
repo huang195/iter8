@@ -1,5 +1,6 @@
 #!/bin/sh
 
+rm -f experiment.yaml
 rm -f productpage-candidate.yaml
 rm -f fortio.yaml
 echo 1 > templates/version
