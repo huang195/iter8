@@ -11,7 +11,7 @@ spec:
     # this experiment will progressively shift traffic to the winning version
     deploymentPattern: Progressive
     actions:
-      # when the experiment completes, promote the winning version using kubectl apply
+      # when the experiment completes, promote the winning version in the Env repo
       finish:
       - task: common/exec
         with:
