@@ -1,7 +1,7 @@
 apiVersion: iter8.tools/v2alpha2
 kind: Experiment
 metadata:
-  name: gitops-exp-13165
+  name: gitops-exp-30960
 spec:
   # target identifies the service under experimentation using its fully qualified name
   target: default/productpage
