@@ -9,7 +9,7 @@ template: main.html
 
     Iter8 can be used in the context of GitOps so that new versions of an application can be first thoroughly tested before rolling them out to various environments. In this tutorial, we will use Argo CD as the CD pipeline tool and Istio as the underlying service mesh, and we will cover the following topics:
 
-    1. Show an example Env repo setup for GitOps+Iter8
+    1. Show an example of Env repo setup for GitOps+Iter8
     2. Show how a CI pipeline updates the Env repo to start an Iter8 experiment
     3. Show how Iter8 updates Env repo after an experiment is finished to uphold GitOps guarantees
 
@@ -112,17 +112,36 @@ You can now merge the PR that Iter8 just created. This will sync the Env repo to
 
 ## 9. Cleanup
 ```shell
-kubectl delete -f $ITER8/samples/gitops/argocd-app.yaml
-kubectl delete ns istio
-kubectl delete ns iter8
+kubectl delete -f $ITER8/samples/gitops/
+kubectl delete ns istio-system
+kubectl delete ns iter8-system
 kubectl delete ns argocd
 ```
 
 ## Additional details
 
-### General GitOps guidelines
+### General GitOps+Iter8 guidelines
+
+It's a generally a good idea to separate code repo from environment repo. If the same repo is being used, one needs to be careful to configure CI/CD pipeline so that changes to the repo doesn't create infinite loops.
+
+### Pipeline integration
+
+
+### Iter8 GitOps handler task
+
+Iter8 operating in the context of GitOps is similar to how it operates normally, i.e., instead of relying on `kubectl apply`, actions are done by modifying the Env repo, and then the changes are applied indirectly to the cluster by the CD pipeline tool. However, a key distination is Iter8 in the context of GitOps has a specific finish handler task that is responsible for cleaning up the Env repo and updating the baseline version after experiments are finished.
+
+For prototyping, one can write these handlers as shell scripts and inline them within an Experiment CR. This makes writing these handlers extremely efficient and easy to debug. However, the down side is it makes the Experiment CR a lot more complicated and scary to read. We are currently working to simplify the handler interface, so stay tuned.
+
+### GitOps support for multiple environments
+
+Some users might use GitOps to manage multiple environments, e.g., staging, pre-prod, prod, so changes are always propagated from environment to environment, minimizing the chance of problems reaching the prod environment. In this setup, the Iter8 GitOps handler task would need to be modified so that Env repo changes are done at the correct place. For example, if diffeent environments are managed by different Env repos, the handler task would need to make multiple git commits, one for each of the repos. This could be done all within a single handler task, or across multiple tasks.
 
 ### Caveats
 
+1. Both CI pipeline and Iter8 now write to the Env repo, and if not coordinated, race condition could occur and cause corruption in the repo. We assume changes done in the Env repo are done via PRs, so the race conditions are minimized, if not eliminated. However, other means to coordinate writes to the Env repo by different entities can be done so fully  automated pipeline can be achieved.
 
+2. When a new app version becomes available while an experiment is still running, the new experiment will preempt the existing one. We currently don't support `test-every-commit` behavior, but this could be supported in the future.
+
+3. Iter8 handler code could fail. Error handling needs to be done carefully so failure doesn't create inconsistencies that would require manual fixing later.
 
