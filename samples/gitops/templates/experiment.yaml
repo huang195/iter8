@@ -1,7 +1,9 @@
 apiVersion: iter8.tools/v2alpha2
 kind: Experiment
 metadata:
-  name: gitops-exp
+  generateName: gitops-exp-
+  annotations:
+    argocd.argoproj.io/hook: Sync
 spec:
   # target identifies the service under experimentation using its fully qualified name
   target: default/productpage
