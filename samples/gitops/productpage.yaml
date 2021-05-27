@@ -22,20 +22,20 @@ metadata:
   name: productpage-stable
   labels:
     app: productpage
-    version: v1
+    version: v47890ad4d2a63def5ed757f29044d21691e112f7
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: productpage
-      version: v1
+      version: v47890ad4d2a63def5ed757f29044d21691e112f7
   template:
     metadata:
       annotations:
         sidecar.istio.io/inject: "true"
       labels:
         app: productpage
-        version: v1
+        version: v47890ad4d2a63def5ed757f29044d21691e112f7
         iter8type: stable
     spec:
       serviceAccountName: bookinfo-productpage
@@ -55,9 +55,9 @@ spec:
           - name: color
             value: "red"
           - name: reward_min
-            value: "0"
+            value: "10"
           - name: reward_max
-            value: "5"
+            value: "20"
           - name: port
             value: "9080"
 ---
