@@ -4,7 +4,7 @@ metadata:
   generateName: fortio-
   annotations:
     argocd.argoproj.io/sync-options: Replace=true
-    argocd.argoproj.io/compare-options: IgnoreExtra
+    argocd.argoproj.io/compare-options: IgnoreExtraneous
   labels:
     app: fortio
 spec:
