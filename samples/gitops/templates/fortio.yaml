@@ -1,10 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  generateName: fortio-
-  annotations:
-    argocd.argoproj.io/sync-options: Replace=true
-    argocd.argoproj.io/compare-options: IgnoreExtraneous
+  name: fortio-
   labels:
     app: fortio
 spec:
