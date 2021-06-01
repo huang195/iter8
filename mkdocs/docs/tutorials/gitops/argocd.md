@@ -5,13 +5,16 @@ template: main.html
 # GitOps with Argo CD
 
 !!! tip "Scenario: GitOps"
-    GitOps methodology is increasingly being used in CI/CD pipelines in Kubernetes-based environments to ease cluster management tasks. When using this methodology, the desired states of one or more clusters are kept in a Git repo, and a CD pipeline tool will continuously monitor for changes in the repo and sync them to the clusters. Additionally, it is preferred that Git repos are structured in a certain way so that the code repo is separated from the environment (Env) repo. Commits to the code repo trigger the CI pipeline tool to build, test, lint, and eventually push newly built images to an image repository. The Env repo contains resource files that describe how various resources should be deployed in the cluster. When newly built images become available, resource files in the Env repo are updated to point to the newly built images. Subsequently, the CD pipeline tool will sync the new desired states to the clusters.
+    GitOps methodology is being widely used in CI/CD pipelines in Kubernetes-based environments to ease cluster management tasks. When using this methodology, the desired states of one or more clusters are kept in a Git repo, and a CD pipeline tool will continuously monitor for changes in the repo and sync them to the clusters. Additionally, it is preferred that Git repos are structured in a certain way so that the code repo is separated from the environment (Env) repo. Commits to the code repo trigger the CI pipeline tool to build, test, lint, and eventually push newly built images to an image repository. The Env repo contains resource files that describe how various resources should be deployed in the cluster. When newly built images become available, resource files in the Env repo are updated to point to the newly built images. Subsequently, the CD pipeline tool will sync the new desired states to the clusters. This is shown below:
 
+    ![CICD](../../images/CICD.png)
+
+!!! tip "Scenario: Iter8+Gitops"
     Iter8 can be used in the context of GitOps so that new versions of an application can be progressively rolled out, or even rolled back when problems are detected. In this tutorial, we will use Argo CD as the CD pipeline tool and Istio as the underlying service mesh, 
 
     We assume the reader has at least a basic understanding of how Iter8 works from the [quick start tutorial](../../../getting-started/quick-start/#1-create-kubernetes-cluster). Since the Env repo is at the heart of GitOps, we will focus mainly on how to setup and manage the Env repo during application update. In this tutorial, we will cover the following topics.
 
-    1. Show how to setup an Env repo to work with GitOps+Iter8
+    1. Show how to setup an Env repo to work with Iter8+GitOps
     2. Show what needs to be changed in the Env repo to start an Iter8 experiment
     3. Show what needs to be changed in the Env repo after an Iter8 experiment is finished to uphold GitOps guarantees
 
@@ -69,29 +72,19 @@ kubectl create secret generic iter8-token --from-literal=token=xxxxxxxxxxxxxxxxx
 
 ## Step 6. Start experiment
 
-When a new image becomes available or when new configurations are to be used, the CI pipeline tool (or some other entity) will make changes to the Env repo, so the new desired states are deployed into the cluster. To use Iter8 to progressively roll out new version, the CI pipeline tool will need to make a few more additional changes in the Env repo. Specifically, it will need to create at least the following resources:
+When a new image becomes available or when new configurations are to be used, the CI pipeline tool (or some other entity) will make changes to the Env repo, so the new desired states are deployed into the cluster. To use Iter8 to progressively roll out a new version, the CI pipeline tool will need to make a few more additional changes in the Env repo. Specifically, it will need to create at least the following resources:
 
-- Candidate deployment: contains updated container image, configurations, and/or environment variables
-- Iter8 experiment: specifies baseline and candidate deployments, and how the experiment should run
+1. Candidate deployment
+2. Iter8 experiment
+3. (Optionally) a workload
 
-Additionally, if a workload generator needs to be started, the CI pipeline should also create the appropriate resources in the Env repo. To simplify this step for this tutorial, we included a `runCI.sh` script that creates these 3 resources to simulate what a CI pipeline might do.
+These are the same resources you would need to create even in a non-GitOps setting.  To simplify this step in the tutorial, we included a `runCI.sh` script that creates these 3 resources to simulate what a CI pipeline might do.
 
 Run the following:
 
 ```shell
 $ITER8/samples/gitops/runCI.sh
 ```
-
-The changes in the Env repo that the script has made are shown as follows:
-
-```shell
-git status -s
-?? experiment.yaml
-?? fortio.yaml
-?? productpage-candidate.yaml
-```
-
-The 3 new files are Iter8 experiment, workload generator, and candidate deployment, respectively.
 
 To start an Iter8 experiment, you need to commit these changes to the Env repo for Argo CD to sync them to the cluster. Run the following:
 
@@ -100,6 +93,24 @@ git add -A .; git commit -m "iter8 experiment"; git push origin head
 ```
 
 By default Argo CD is configured to run every 3 minutes, so if you don't want to wait, you can use Argo CD UI to force a manual refresh so the changes to the Env repo can be immediately synced to the cluster. 
+
+??? info "More about runCI.sh"
+    The `runCI.sh` script is very simple (shown as below). Both `fortio.yaml` and `experiment.yaml` are almost directly copied from the `templates/` subdirectory. The only change we made was to give it a random name because we want each new experiment to preempt any running experiment and workload when Argo CD syncs. We could have used a simpler `cp` operation if Argo CD supported `generateName` field better. In the current version, it cannot correctly associate resources with `generateName` field in the Env repo with those created in the cluster, so we had to resort to using `sed`. The candidate deployment is also templated from the `templates/` subdirectory, and we simply use the current commit ID as the version and assign it a random color to use.
+    ```shell linenums="1"
+    # give fortio deployment a random name so it restarts on a new experiment
+    RANDOM=`od -An -N4 -i /dev/random`
+    sed "s|  name: fortio-|  name: fortio-$RANDOM|" templates/fortio.yaml > ./fortio.yaml
+    
+    # give experiment a random name so CI triggers new experiment each time a new app version is available
+    sed "s|name: gitops-exp|name: gitops-exp-$RANDOM|" templates/experiment.yaml > ./experiment.yaml
+    
+    # use a random color for a new experiment candidate
+    declare -a colors=("red" "orange" "blue" "green" "yellow" "violet" "brown")
+    color=`expr $RANDOM % ${#colors[@]}`
+    version=`git rev-parse --short HEAD`
+    sed "s|value: COLOR|value: \"${colors[$color]}\"|" templates/productpage-candidate.yaml |\
+    sed "s|version: v.*|version: v$version|" > ./productpage-candidate.yaml
+    ```
 
 ## 7. Finish experiment
 
@@ -113,7 +124,48 @@ Once the experiment finishes, check https://github.com/[YOUR_ORG]/iter8/pulls. I
 
 You can now merge the PR that Iter8 just created. Argo CD should detect the change and sync the cluster to the new desired states. If the experiment succeeded, the candidate version will become the new baseline for future experiments.
 
-## 9. Cleanup
+??? info "More about Iter8 GitOps handler task"
+    Iter8 operating in the GitOps mode is very similar to how it works normally. One key difference is at the end of the experiment, it will need to perform an additional step to modify the desired state of the Env repo to reflect the outcome of the experiment. This can be done by specifying a `finish` Iter8 handler task that runs at the end of an experiment. The specific handler task we are using in this tutorial is written in a shell script as shown below:
+    ```yaml linenums="1"
+    actions:
+      # when the experiment completes, promote the winning version in the Env repo
+      finish:
+      - task: common/exec
+        with:
+          cmd: /bin/bash
+          args: [
+                 "-c",
+                 "apt-get install -y git jq curl;\
+                  REPO=github.com/huang195/iter8;\
+                  BRANCH=gitops;\
+                  USER=huang195;\
+                  TOKEN=`kubectl -n {{ .namespace }} get secret iter8-token -o json | jq -r .data.token | base64 -d`;\
+                  git config --global user.email 'iter8@iter8.tools';\
+                  git config --global user.name 'Iter8';\
+                  git clone https://${USER}:${TOKEN}@${REPO} --branch=${BRANCH};\
+                  cd iter8/samples/gitops;\
+                  TMP=`mktemp`;\
+                  sed 's/candidate/stable/g' {{ .filepath }} > $TMP;\
+                  mv $TMP productpage.yaml;\
+                  rm -f productpage-candidate.yaml;\
+                  rm -f fortio.yaml;\
+                  rm -f experiment.yaml;\
+                  if [ `git status -s | wc -l` != 0 ];\
+                  then \
+                    git checkout -b iter8_exp;\
+                    git commit -a -m 'update baseline';\
+                    git push -f origin iter8_exp;\
+                    curl -u${USER}:${TOKEN} -XPOST https://api.github.com/repos/iter8-tools/iter8/pulls -s -d '{\"head\":\"iter8_exp\", \"base\":\"gitops\", \"body\":\"update baseline\", \"title\":\"Iter8 GitOps\"}';\
+                  fi;\
+                  kubectl -n {{ .namespace }} apply -f istio-vs.yaml;\
+                 "
+                ]
+
+    ```
+
+    For prototyping, one can write these handler tasks as shell scripts and inline them within an Experiment CR. This makes writing these handlers extremely efficient and easy to debug. However, the down side is it makes the Experiment CR a lot more complicated and scary to read. We are currently working to simplify the handler interface, so stay tuned.
+
+## 8. Cleanup
 ```shell
 kubectl delete -f $ITER8/samples/gitops/
 kubectl delete ns istio-system
@@ -121,7 +173,7 @@ kubectl delete ns iter8-system
 kubectl delete ns argocd
 ```
 
-## 10. Additional details
+## 9. Additional details
 
 ### Env repo setup
 
@@ -130,12 +182,6 @@ In GitOps, it's a generally a good idea to use separate repos for code and envir
 The Env repo can be organized in many different ways. With tools such as Helm and Kustomize becoming widely used, it becomes even simpler for CI pipeline tools to update an Env repo to roll out new app versions. In this tutorial, we consciously sticked with the most basic directory structure (i.e., all YAML files within a single directory without subdirectories) without the use of any higher level templating tools. Adapting the basic directory structure to Helm/Kustomize should be fairly straight forward.
 
 When organizing the directory structure, one needs to keep in mind that the CI pipeline tool will be creating new resources in the Env repo to start an Iter8 experiment. And when the experiment finishes, Iter8 (specifically, Iter8 handler tasks) will delete the added resources and update the baseline version in the Env repo. In other words, the invariant here is the directory structure, which should stay the same before and after an experiment.
-
-### Iter8 GitOps handler task
-
-Iter8 operating in the context of GitOps is similar to how it operates normally, i.e., instead of relying on `kubectl apply`, actions are done by modifying the Env repo and then relying on the changes being applied indirectly by the CD pipeline tool. However, a key distination is Iter8 in the context of GitOps has a specific finish handler task that is responsible for cleaning up the Env repo and updating the baseline version after an experiment is finished.
-
-For prototyping, one can write these handlers as shell scripts and inline them within an Experiment CR. This makes writing these handlers extremely efficient and easy to debug. However, the down side is it makes the Experiment CR a lot more complicated and scary to read. We are currently working to simplify the handler interface, so stay tuned.
 
 ### GitOps support for multiple environments
 
