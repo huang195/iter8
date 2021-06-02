@@ -19,9 +19,9 @@ spec:
           args: [ 
                  "-c",
                  "apt-get install -y git jq curl;\
-                  REPO=github.com/huang195/iter8;\
+                  REPO=github.com/MY_ORG/iter8;\
                   BRANCH=gitops;\
-                  USER=huang195;\
+                  USER=MY_ORG;\
                   TOKEN=`kubectl -n {{ .namespace }} get secret iter8-token -o json | jq -r .data.token | base64 -d`;\
                   git config --global user.email 'iter8@iter8.tools';\
                   git config --global user.name 'Mr. Iter8';\
@@ -38,7 +38,7 @@ spec:
                     git checkout -b iter8_exp;\
                     git commit -a -m 'update baseline';\
                     git push -f origin iter8_exp;\
-                    curl -u${USER}:${TOKEN} -XPOST https://api.github.com/repos/huang195/iter8/pulls -s -d '{\"head\":\"iter8_exp\", \"base\":\"gitops\", \"body\":\"update baseline\", \"title\":\"Iter8 GitOps\"}';\
+                    curl -u${USER}:${TOKEN} -XPOST https://api.github.com/repos/MY_ORG/iter8/pulls -s -d '{\"head\":\"iter8_exp\", \"base\":\"gitops\", \"body\":\"update baseline\", \"title\":\"Iter8 GitOps\"}';\
                   fi;\
                   kubectl -n {{ .namespace }} apply -f istio-vs.yaml;\
                  "

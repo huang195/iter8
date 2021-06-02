@@ -37,6 +37,7 @@ In your K8s cluster, you will need to install Istio, Prometheus, Iter8, and Argo
 git clone https://github.com/[YOUR_ORG]/iter8.git
 cd iter8
 export ITER8=$(pwd)
+find $ITER8/samples/gitops -name "*" -type f | xargs sed -i "s/MY_ORG/YOUR_ORG/"
 $ITER8/samples/gitops/platformsetup.sh
 ```
 
