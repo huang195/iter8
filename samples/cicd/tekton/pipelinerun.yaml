@@ -1,0 +1,23 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: iter8-cicd-pipelinerun-
+spec:
+  serviceAccountName: pipeline
+  pipelineRef:
+    name: iter8-pipeline
+  resources:
+  - name: source
+    resourceRef:
+      name: iter8-git
+  params:
+  - name: CONTEXT
+    value: samples/cicd/app
+  - name: COMMITS
+    value: "1"
+  - name: ACTION
+    value: "closed"
+  - name: MERGED
+    value: "true"
+  - name: BRANCH
+    value: "cicd"
