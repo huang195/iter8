@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e 
+set -e
 
 # Step 0: Ensure environment and arguments are well-defined
 
@@ -31,9 +31,8 @@ else
 fi
 
 # Step 1: Install Iter8
-echo "Installing Iter8 with Istio Support"
+echo "Installing Iter8"
 kustomize build $ITER8/install/core | oc apply -f -
-
-# Verify Iter8 installation
-echo "Verifying Iter8 and add-on installation"
-oc wait --for condition=ready --timeout=300s pods --all -n iter8-system
+oc wait crd -l creator=iter8 --for condition=established --timeout=120s
+kustomize build $ITER8/install/builtin-metrics | oc apply -f -
+oc wait --for=condition=Ready --timeout=300s pods --all -n iter8-system
