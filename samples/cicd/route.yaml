@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Route
+metadata:
+  name: iter8-app-route
+  annotations:
+    haproxy.router.openshift.io/balance: roundrobin
+spec:
+  host: "iter8-app.example.com"
+  to:
+    kind: Service
+    name: iter8-app
+    weight: 50
+  alternateBackends:
+  - kind: Service
+    name: iter8-app-candidate
+    weight: 50
