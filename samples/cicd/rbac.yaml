@@ -34,7 +34,7 @@ subjects:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: iter8-binding
+  name: iter8-controller-binding
   labels:
     app.kubernetes.io/instance: gitops
 roleRef:
@@ -49,7 +49,7 @@ subjects:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: iter8-binding
+  name: iter8-handlers-binding
   labels:
     app.kubernetes.io/instance: gitops
 roleRef:
@@ -58,5 +58,5 @@ roleRef:
   name: gitops-deployer
 subjects:
 - kind: ServiceAccount
-  name: iter8-handler
+  name: iter8-handlers
   namespace: iter8-system
