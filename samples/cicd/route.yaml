@@ -4,6 +4,8 @@ metadata:
   name: iter8-app-route
   annotations:
     haproxy.router.openshift.io/balance: roundrobin
+  labels:
+    app.kubernetes.io/instance: gitops
 spec:
   host: "iter8-app.example.com"
   to:
