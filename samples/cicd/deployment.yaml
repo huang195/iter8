@@ -5,6 +5,7 @@ metadata:
   labels:
     app: iter8-app
     version: v1
+    app.kubernetes.io/instance: gitops
 spec:
   replicas: 1
   selector:
