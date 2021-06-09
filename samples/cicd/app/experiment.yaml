@@ -18,7 +18,7 @@ spec:
           cmd: /bin/bash
           args: [ 
                  "-c",
-                 "echo hello"
+                 "echo \"winner: {{ .filepath }}\""
                 ]
   criteria:
     objectives: # used for validating versions
