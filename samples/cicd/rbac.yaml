@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/instance: gitops
 rules:
 - apiGroups: ["*"]
-  resources: ["deployments", "services", "metrics", "clusterroles", "clusterrolebindings", "route"]
+  resources: ["deployments", "services", "metrics", "clusterroles", "clusterrolebindings", "routes"]
   verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
