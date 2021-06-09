@@ -17,3 +17,9 @@ spec:
   syncPolicy:
     automated:
       prune: true
+  ignoreDifferences:
+  - group: route.openshift.io
+    kind: Route
+    jsonPointers:
+    - /spec/to/weight
+    - /spec/alternateBackends/weight
