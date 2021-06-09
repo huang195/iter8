@@ -16,8 +16,12 @@ spec:
       - task: metrics/collect
         with:
           versions: 
-          - name: sample-app-v1
-            url: http://169.46.34.77
+          - name: iter8-app
+            url: http://iter8-app.default.svc
+            headers:
+              Host: iter8-app.example.com
+          - name: iter8-app-candidate
+            url: http://iter8-app-candidate.default.svc
             headers:
               Host: iter8-app.example.com
       # when the experiment completes, promote the winning version in the Env repo
