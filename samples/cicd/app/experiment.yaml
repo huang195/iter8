@@ -43,7 +43,7 @@ spec:
         apiVersion: route.openshift.io/v1
         kind: Route
         namespace: default
-        name: iter8-app
+        name: iter8-app-route
         fieldPath: .spec.to.weight
     candidates:
     - name: iter8-app-candidate
@@ -56,5 +56,5 @@ spec:
         apiVersion: route.openshift.io/v1
         kind: Route
         namespace: default
-        name: iter8-app
+        name: iter8-app-route
         fieldPath: .spec.alternateBackends[0].weight
