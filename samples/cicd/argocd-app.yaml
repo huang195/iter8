@@ -22,4 +22,4 @@ spec:
     kind: Route
     jsonPointers:
     - /spec/to/weight
-    - /spec/alternateBackends/weight
+    - /spec/alternateBackends/0/weight
