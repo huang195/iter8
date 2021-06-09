@@ -17,13 +17,9 @@ spec:
         with:
           versions: 
           - name: iter8-app
-            url: http://iter8-app.default.svc
-            headers:
-              Host: iter8-app.example.com
+            url: http://iter8-app.default.svc:8000
           - name: iter8-app-candidate
-            url: http://iter8-app-candidate.default.svc
-            headers:
-              Host: iter8-app.example.com
+            url: http://iter8-app-candidate.default.svc:8000
       # when the experiment completes, promote the winning version in the Env repo
       finish:
       - task: common/exec
