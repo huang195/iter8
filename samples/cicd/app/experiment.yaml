@@ -12,7 +12,7 @@ spec:
     deploymentPattern: Progressive
     actions:
       # use built-in metric collector
-      loop:
+      start:
       - task: metrics/collect
         with:
           versions: 
