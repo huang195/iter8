@@ -8,18 +8,10 @@ metadata:
 rules:
 - apiGroups: ["*"]
   resources: ["deployments", "services", "metrics", "clusterroles", "clusterrolebindings"]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: gitops-deployer-route
-  labels:
-    app.kubernetes.io/instance: gitops
-rules:
+  verbs: ["*"]
 - apiGroups: ["route.openshift.io"]
-  resources: ["routes"]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  resources: ["routes", "routes/custom-host"]
+  verbs: ["*"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -31,21 +23,6 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: gitops-deployer
-subjects:
-- kind: ServiceAccount
-  name: argocd-cluster-argocd-application-controller
-  namespace: openshift-gitops
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: gitops-deployer-route-binding
-  labels:
-    app.kubernetes.io/instance: gitops
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: gitops-deployer-route
 subjects:
 - kind: ServiceAccount
   name: argocd-cluster-argocd-application-controller
