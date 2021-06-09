@@ -45,3 +45,18 @@ subjects:
 - kind: ServiceAccount
   name: iter8-controller
   namespace: iter8-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: iter8-binding
+  labels:
+    app.kubernetes.io/instance: gitops
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: gitops-deployer
+subjects:
+- kind: ServiceAccount
+  name: iter8-handler
+  namespace: iter8-system
