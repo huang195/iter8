@@ -1,0 +1,22 @@
+# This role enables deploying
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: gitops-deployer
+rules:
+- apiGroups: ["*"]
+  resources: ["deployments", "services", "metrics"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: gitops-deployer-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: gitops-deployer
+subjects:
+- kind: ServiceAccount
+  name: argocd-cluster-argocd-application-controller
+  namespace: openshift-gitops
