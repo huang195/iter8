@@ -9,8 +9,8 @@ spec:
   to:
     kind: Service
     name: iter8-app
-    weight: 100
+    weight: 50
   alternateBackends:
   - kind: Service
     name: iter8-app-candidate
-    weight: 0
+    weight: 50
