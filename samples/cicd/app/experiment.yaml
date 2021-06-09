@@ -35,7 +35,7 @@ spec:
       upperLimit: 300
     - metric: iter8-system/error-rate
       upperLimit: "0.01"
-    requestCount: default/request-count
+    requestCount: iter8-system/request-count
   duration: # product of fields determines length of the experiment
     intervalSeconds: 10
     iterationsPerLoop: 10
