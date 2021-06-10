@@ -1,10 +1,10 @@
 all: run
 
 build:
-	docker build -t haih/helloworld:`git rev-parse --short HEAD` .
+	docker build -t haih/helloworld:v`git rev-parse --short HEAD` .
 
 push:
-	docker push haih/helloworld:`git rev-parse --short HEAD`
+	docker push haih/helloworld:v`git rev-parse --short HEAD`
 
 candidate:
 	cat deployment-candidate.yaml | sed "s/VERSION/v`git rev-parse --short head`/g" > ../deployment-candidate.yaml
