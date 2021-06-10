@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/instance: gitops
 rules:
 - apiGroups: ["*"]
-  resources: ["deployments", "services", "metrics", "clusterroles", "clusterrolebindings"]
+  resources: ["deployments", "services", "metrics", "clusterroles", "clusterrolebindings", "secrets"]
   verbs: ["*"]
 - apiGroups: ["route.openshift.io"]
   resources: ["routes", "routes/custom-host"]
