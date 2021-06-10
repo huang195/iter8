@@ -48,7 +48,7 @@ spec:
                     git push -f origin iter8_exp;\
                     curl -u${USER}:${TOKEN} -XPOST https://api.github.com/repos/huang195/iter8/pulls -s -d '{\"head\":\"iter8_exp\", \"base\":\"${BRANCH}\", \"body\":\"update baseline\", \"title\":\"Iter8 GitOps\"}';\
                   fi;\
-                  kubectl -n {{ .namespace }} apply -f istio-vs.yaml;\
+                  kubectl -n {{ .namespace }} apply -f route.yaml;\
                  "
                 ]
   criteria:
