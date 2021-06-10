@@ -4,26 +4,26 @@ metadata:
   name: iter8-app-candidate
   labels:
     app: iter8-app-candidate
-    version: 4341789
+    version: v5d52ec5
     app.kubernetes.io/instance: gitops
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: iter8-app-candidate
-      version: 4341789
+      version: v5d52ec5
   template:
     metadata:
       labels:
         app: iter8-app-candidate
-        version: 4341789
+        version: v5d52ec5
     spec:
       containers:
       - name: iter8-app-candidate
-        image: haih/helloworld:4341789
+        image: haih/helloworld:v5d52ec5
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8000
         env:
         - name: version
-          value: 4341789
+          value: v5d52ec5
