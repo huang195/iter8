@@ -38,9 +38,8 @@ spec:
                   cd iter8/samples/cicd;\
                   TMP=`mktemp`;\
                   sed 's/candidate/stable/g' {{ .filepath }} > $TMP;\
-                  mv $TMP productpage.yaml;\
-                  rm -f productpage-candidate.yaml;\
-                  rm -f fortio.yaml;\
+                  mv $TMP deployment.yaml;\
+                  rm -f deployment-candidate.yaml;\
                   rm -f experiment.yaml;\
                   if [ `git status -s | wc -l` != 0 ];\
                   then \
