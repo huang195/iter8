@@ -1,7 +1,7 @@
 apiVersion: iter8.tools/v2alpha2
 kind: Experiment
 metadata:
-  name: gitops-exp-5212
+  name: gitops-exp-23714
 spec:
   # target identifies the service under experimentation using its fully qualified name
   target: default/productpage
@@ -29,13 +29,13 @@ spec:
                  "-c",
                  "apt-get install -y git jq curl;\
                   REPO=github.com/huang195/iter8;\
-                  BRANCH=master;\
+                  BRANCH=cicd;\
                   USER=huang195;\
                   TOKEN=`kubectl -n {{ .namespace }} get secret iter8-token -o json | jq -r .data.token | base64 -d`;\
                   git config --global user.email 'iter8@iter8.tools';\
                   git config --global user.name 'Iter8';\
                   git clone https://${USER}:${TOKEN}@${REPO} --branch=${BRANCH};\
-                  cd iter8/samples/gitops;\
+                  cd iter8/samples/cicd;\
                   TMP=`mktemp`;\
                   sed 's/candidate/stable/g' {{ .filepath }} > $TMP;\
                   mv $TMP productpage.yaml;\
