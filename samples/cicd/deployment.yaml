@@ -25,5 +25,5 @@ spec:
         ports:
         - containerPort: 8000
         env:
-          - name: version
-            value: v1
+        - name: version
+          value: v1
