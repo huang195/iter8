@@ -8,6 +8,6 @@ push:
 
 candidate:
 	cat deployment-candidate.yaml | sed "s/VERSION/`git rev-parse --short head`/g" > ../deployment-candidate.yaml
-	sed "s|  name: gitops-exp-|  name: gitops-exp-`od -An -N4 -i /dev/random`|" experiment.yaml > ../experiment.yaml
+	sed "s|  name: gitops-exp-|  name: gitops-exp-$(shell echo $$RANDOM)|" experiment.yaml > ../experiment.yaml
 
 run: build push candidate
