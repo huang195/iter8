@@ -15,7 +15,7 @@ spec:
       start:
       - task: metrics/collect
         with:
-          versions: 
+          versions:
           - name: iter8-app
             url: http://iter8-app.default.svc:8000
           - name: iter8-app-candidate
@@ -25,7 +25,7 @@ spec:
       - task: common/exec
         with:
           cmd: /bin/bash
-          args: [ 
+          args: [
                  "-c",
                  "apt-get install -y git jq curl;\
                   REPO=github.com/huang195/iter8;\
@@ -46,7 +46,7 @@ spec:
                     git checkout -b iter8_exp;\
                     git commit -a -m 'update baseline';\
                     git push -f origin iter8_exp;\
-                    curl -u${USER}:${TOKEN} -XPOST https://api.github.com/repos/huang195/iter8/pulls -s -d "{\"head\":\"iter8_exp\", \"base\":\"${BRANCH}\", \"body\":\"update baseline\", \"title\":\"Iter8 GitOps\"}";\
+                    curl -u${USER}:${TOKEN} -XPOST https://api.github.com/repos/huang195/iter8/pulls -s -d \"{\"head\":\"iter8_exp\", \"base\":\"${BRANCH}\", \"body\":\"update baseline\", \"title\":\"Iter8 GitOps\"}\";\
                   fi;\
                   kubectl -n {{ .namespace }} apply -f route.yaml;\
                  "
