@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iter8-app-candidate
+  labels:
+    app: iter8-app-candidate
+    version: 6d4c2ee
+    app.kubernetes.io/instance: gitops
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: iter8-app-candidate
+      version: 6d4c2ee
+  template:
+    metadata:
+      labels:
+        app: iter8-app-candidate
+        version: 6d4c2ee
+    spec:
+      containers:
+      - name: iter8-app-candidate
+        image: haih/helloworld:6d4c2ee
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+        env:
+        - name: version
+          value: 6d4c2ee
