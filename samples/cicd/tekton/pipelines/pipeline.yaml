@@ -1,0 +1,30 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  annotations:
+    pipelines.kubeflow.org/pipeline_spec: '{
+      "description": "Calls Kaniko to build an image.",
+      "name": "Kaniko pipeline"}'
+  name: kaniko-pipeline
+spec:
+  resources:
+  - name: source
+    type: git
+  params:
+  - name: IMAGE
+    description: Name of the image to build
+  - name: CONTEXT
+    description: Relative directory path to Dockerfile
+  tasks:
+  - name: kaniko
+    taskRef:
+      name: kaniko
+    resources:
+      inputs:
+      - name: source
+        resource: source
+    params:
+    - name: IMAGE
+      value: $(params.IMAGE)
+    - name: CONTEXT
+      value: $(params.CONTEXT)
