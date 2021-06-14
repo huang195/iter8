@@ -3,19 +3,24 @@ kind: Pipeline
 metadata:
   annotations:
     pipelines.kubeflow.org/pipeline_spec: '{
-      "description": "Calls Kaniko to build an image.",
-      "name": "Kaniko pipeline"}'
-  name: kaniko-pipeline
+      "description": "Build an image from code.",
+      "name": "Iter8 pipeline"}'
+  name: iter8-pipeline
 spec:
   resources:
   - name: source
     type: git
   params:
-  - name: IMAGE
-    description: Name of the image to build
   - name: CONTEXT
     description: Relative directory path to Dockerfile
   tasks:
+  - name: get-commit-id
+    taskRef:
+      name: get-commit-id
+    resources:
+      inputs:
+      - name: source
+        resource: source
   - name: kaniko
     taskRef:
       name: kaniko
@@ -25,6 +30,6 @@ spec:
         resource: source
     params:
     - name: IMAGE
-      value: $(params.IMAGE)
+      value: haih/helloworld:$(tasks.get-commit-id.results.commit-id)
     - name: CONTEXT
       value: $(params.CONTEXT)
