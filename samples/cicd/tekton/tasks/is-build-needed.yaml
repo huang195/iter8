@@ -26,9 +26,9 @@ spec:
     image: alpine/git:latest
     script: |
       #!/usr/bin/env sh
-      if [[ `git diff --name-only HEAD~ | grep $(params.CONTEXT) | wc` > 0 ]]
+      if [ `git diff --name-only HEAD~ | grep $(params.CONTEXT) | wc -l` -gt 0 ]
       then
-        echo "yes" | tee $(results.needed.path)
+        printf yes | tee $(results.needed.path)
       else
-        echo "no" | tee $(results.needed.path)
+        printf no | tee $(results.needed.path)
       fi
