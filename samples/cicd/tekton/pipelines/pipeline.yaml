@@ -14,6 +14,16 @@ spec:
   - name: CONTEXT
     description: Relative directory path to Dockerfile
   tasks:
+  - name: is-build-needed
+    taskRef:
+      name: is-build-needed
+    resources:
+      inputs:
+      - name: source
+        resource: source
+    params:
+    - name: CONTEXT
+      value: $(params.CONTEXT)
   - name: get-commit-id
     taskRef:
       name: get-commit-id
@@ -21,6 +31,10 @@ spec:
       inputs:
       - name: source
         resource: source
+    when:
+    - input: "$(tasks.is-build-needed.results.needed)"
+      operator: in
+      values: ["yes"]
   - name: kaniko
     taskRef:
       name: kaniko
@@ -33,3 +47,7 @@ spec:
       value: haih/helloworld:$(tasks.get-commit-id.results.commit-id)
     - name: CONTEXT
       value: $(params.CONTEXT)
+    when:
+    - input: "$(tasks.is-build-needed.results.needed)"
+      operator: in
+      values: ["yes"]
