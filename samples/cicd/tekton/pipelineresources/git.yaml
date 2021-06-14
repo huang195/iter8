@@ -9,3 +9,7 @@ spec:
       value: https://github.com/huang195/iter8.git
     - name: revision
       value: cicd
+    - name: refspec
+      value: refs/heads/cicd:refs/heads/cicd
+    - name: depth
+      value: "0"
