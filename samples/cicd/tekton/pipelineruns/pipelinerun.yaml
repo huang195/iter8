@@ -4,13 +4,11 @@ metadata:
   generateName: iter8-cicd-pipelinerun-
 spec:
   pipelineRef:
-    name: kaniko-pipeline
+    name: iter8-pipeline
   resources:
   - name: source
     resourceRef:
       name: iter8-git
   params:
-  - name: IMAGE
-    value: haih/helloworld:tekton
   - name: CONTEXT
     value: samples/cicd/app
