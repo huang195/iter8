@@ -36,7 +36,7 @@ spec:
       git add -A
       git commit -a -m 'start Iter8 experiment'
       git push -f origin iter8_exp_start
-      curl -u$(params.USER):${GITHUB_TOKEN} -XPOST https://api.github.com/repos/$(params.USER)/$(params.REPO)/pulls -s -d "{\"head\":\"iter8_exp_start\", \"base\":\"$(params.BRANCH)\", \"body\":\"start Iter8 experiment\", \"title\":\"Iter8 GitOps: \`start of experiment\`\"}";
+      curl -u$(params.USER):${GITHUB_TOKEN} -XPOST https://api.github.com/repos/$(params.USER)/$(params.REPO)/pulls -s -d "{\"head\":\"iter8_exp_start\", \"base\":\"$(params.BRANCH)\", \"body\":\"start Iter8 experiment\", \"title\":\"Iter8 GitOps: start of experiment\"}";
     env:
     - name: GITHUB_TOKEN
       valueFrom:
