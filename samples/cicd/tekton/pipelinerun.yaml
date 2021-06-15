@@ -3,6 +3,7 @@ kind: PipelineRun
 metadata:
   generateName: iter8-cicd-pipelinerun-
 spec:
+  serviceAccountName: pipeline
   pipelineRef:
     name: iter8-pipeline
   resources:

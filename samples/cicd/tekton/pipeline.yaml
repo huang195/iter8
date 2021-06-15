@@ -44,9 +44,12 @@ spec:
         resource: source
     params:
     - name: IMAGE
-      value: image-registry.openshift-image-registry.svc:5000/haih/helloworld:v$(tasks.get-commit-id.results.commit-id)
+      value: image-registry.openshift-image-registry.svc:5000/default/helloworld:v$(tasks.get-commit-id.results.commit-id)
     - name: CONTEXT
       value: $(params.CONTEXT)
+    - name: EXTRA_ARGS
+      value:
+      - --skip-tls-verify
     when:
     - input: "$(tasks.is-build-needed.results.needed)"
       operator: in
