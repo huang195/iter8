@@ -43,10 +43,10 @@ spec:
                   rm -f experiment.yaml;\
                   if [ `git status -s | wc -l` != 0 ];\
                   then \
-                    git checkout -b iter8_exp;\
+                    git checkout -b iter8_exp_end;\
                     git commit -a -m 'update baseline';\
-                    git push -f origin iter8_exp;\
-                    curl -u${USER}:${TOKEN} -XPOST https://api.github.com/repos/huang195/iter8/pulls -s -d \"{\\\"head\\\":\\\"iter8_exp\\\", \\\"base\\\":\\\"${BRANCH}\\\", \\\"body\\\":\\\"update baseline\\\", \\\"title\\\":\\\"Iter8 GitOps: end of experiment\\\"}\";\
+                    git push -f origin iter8_exp_end;\
+                    curl -u${USER}:${TOKEN} -XPOST https://api.github.com/repos/huang195/iter8/pulls -s -d \"{\\\"head\\\":\\\"iter8_exp_end\\\", \\\"base\\\":\\\"${BRANCH}\\\", \\\"body\\\":\\\"update baseline\\\", \\\"title\\\":\\\"Iter8 GitOps: end of experiment\\\"}\";\
                   fi;\
                   kubectl -n {{ .namespace }} apply -f route.yaml;\
                  "
