@@ -67,7 +67,7 @@ spec:
     - name: BRANCH
       value: cicd
     - name: GITHUB-TOKEN-SECRET
-      value: iter8-token
+      value: github-token
     when:
     - input: "$(tasks.is-build-needed.results.needed)"
       operator: in

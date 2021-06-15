@@ -31,7 +31,7 @@ spec:
                   REPO=github.com/huang195/iter8;\
                   BRANCH=cicd;\
                   USER=huang195;\
-                  TOKEN=`kubectl -n {{ .namespace }} get secret iter8-token -o json | jq -r .data.token | base64 -d`;\
+                  TOKEN=`kubectl -n {{ .namespace }} get secret github-token -o json | jq -r .data.token | base64 -d`;\
                   git config --global user.email 'iter8@iter8.tools';\
                   git config --global user.name 'Iter8';\
                   git clone https://${USER}:${TOKEN}@${REPO} --branch=${BRANCH};\
