@@ -1,0 +1,12 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: iter8-eventlistener
+spec:
+  serviceAccountName: pipeline
+  triggers:
+  - name: iter8-build-on-commit
+    template:
+      name: iter8-triggertemplate
+    bindings:
+    - name: iter8-triggerbinding
