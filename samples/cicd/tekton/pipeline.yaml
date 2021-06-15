@@ -13,6 +13,9 @@ spec:
   params:
   - name: CONTEXT
     description: Relative directory path to Dockerfile
+  - name: COMMITS
+    description: Number of commits to check
+
   tasks:
   - name: is-build-needed
     taskRef:
@@ -24,6 +27,8 @@ spec:
     params:
     - name: CONTEXT
       value: $(params.CONTEXT)
+    - name: COMMITS
+      value: $(params.COMMITS)
   - name: get-commit-id
     taskRef:
       name: get-commit-id

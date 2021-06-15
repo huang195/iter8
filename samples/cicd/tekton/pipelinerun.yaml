@@ -13,3 +13,5 @@ spec:
   params:
   - name: CONTEXT
     value: samples/cicd/app
+  - name: COMMITS
+    value: 1
