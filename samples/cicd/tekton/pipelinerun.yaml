@@ -14,4 +14,4 @@ spec:
   - name: CONTEXT
     value: samples/cicd/app
   - name: COMMITS
-    value: 1
+    value: "1"
