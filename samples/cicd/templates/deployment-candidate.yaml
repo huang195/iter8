@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: iter8-app-candidate
-        image: haih/helloworld:VERSION
+        image: image-registry.openshift-image-registry.svc:5000/haih/helloworld:VERSION
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8000
