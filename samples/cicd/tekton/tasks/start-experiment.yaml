@@ -1,0 +1,47 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: start-experiment
+  annotations:
+    tekton.dev/displayName: "Start an Iter8 experiment"
+spec:
+  description: >-
+    This task create a candidate and Iter8 experiment resource in
+    the Env repo and make a PR from the changes
+
+  resources:
+    inputs:
+    - name: source
+      type: git
+      description: Holds git repo
+  params:
+    - name: VERSION
+      description: version of the candidate deployment
+    - name: USER
+      description: Github username
+    - name: BRANCH
+      description: Base branch PR is opened against
+    - name: GITHUB-TOKEN-SECRET
+      description: Holds Github token
+
+  steps:
+  - name: get-commit-id
+    workingDir: $(resources.inputs.source.path)
+    image: alpine/git:latest
+    script: |
+      #!/usr/bin/env sh
+      apk add curl jq
+      git config --global user.email 'iter8@iter8.tools'
+      git config --global user.name 'Iter8'
+      (cd templates; VERSION=$(params.VERSION) make)
+      git checkout -b iter8_exp
+      git commit -a -m 'start Iter8 experiment'
+      git push -f origin iter8_exp
+      curl -u$(params.USER):${GITHUB_TOKEN} -XPOST https://api.github.com/repos/huang195/iter8/pulls -s -d "{\"head\":\"iter8_exp\", \"base\":\"${params.BRANCH}\", \"body\":\"start I8ter experiment\", \"title\":\"Iter8 GitOps: `start of experiment`\"}";
+    env:
+    - name: GITHUB_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: $(params.GITHUB-TOKEN-SECRET)
+          key: token
+        

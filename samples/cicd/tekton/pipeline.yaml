@@ -51,3 +51,23 @@ spec:
     - input: "$(tasks.is-build-needed.results.needed)"
       operator: in
       values: ["yes"]
+  - name: start-experiment
+    taskRef:
+      name: start-experiment
+    resources:
+      inputs:
+      - name: source
+        resource: source
+    params:
+    - name: VERSION
+      value: $(tasks.get-commit-id.results.commit-id)
+    - name: USER
+      value: huang195
+    - name: BRANCH
+      value: cicd
+    - name: GITHUB_TOKEN_SECRET
+      value: iter8-token
+    when:
+    - input: "$(tasks.is-build-needed.results.needed)"
+      operator: in
+      values: ["yes"]
