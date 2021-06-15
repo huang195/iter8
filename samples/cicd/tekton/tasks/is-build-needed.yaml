@@ -16,6 +16,8 @@ spec:
   params:
   - name: CONTEXT
     description: Relative directory path to Dockerfile
+  - name: COMMITS
+    description: Number of commits to check
   results:
   - name: needed
     description: If a new build is needed
@@ -26,7 +28,7 @@ spec:
     image: alpine/git:latest
     script: |
       #!/usr/bin/env sh
-      if [ `git diff --name-only HEAD~ | grep $(params.CONTEXT) | wc -l` -gt 0 ]
+      if [ `git diff --name-only HEAD~$(params.COMMITS) | grep $(params.CONTEXT) | wc -l` -gt 0 ]
       then
         printf yes | tee $(results.needed.path)
       else
