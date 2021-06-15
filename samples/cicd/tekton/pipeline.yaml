@@ -44,7 +44,7 @@ spec:
         resource: source
     params:
     - name: IMAGE
-      value: haih/helloworld:$(tasks.get-commit-id.results.commit-id)
+      value: haih/helloworld:v$(tasks.get-commit-id.results.commit-id)
     - name: CONTEXT
       value: $(params.CONTEXT)
     when:
@@ -54,20 +54,20 @@ spec:
   - name: start-experiment
     taskRef:
       name: start-experiment
-    resources:
-      inputs:
-      - name: source
-        resource: source
     params:
     - name: VERSION
       value: $(tasks.get-commit-id.results.commit-id)
     - name: USER
       value: huang195
+    - name: REPO
+      value: iter8
     - name: BRANCH
       value: cicd
-    - name: GITHUB_TOKEN_SECRET
+    - name: GITHUB-TOKEN-SECRET
       value: iter8-token
     when:
     - input: "$(tasks.is-build-needed.results.needed)"
       operator: in
       values: ["yes"]
+    runAfter:
+    - kaniko
