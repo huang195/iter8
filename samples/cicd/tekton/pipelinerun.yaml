@@ -15,3 +15,7 @@ spec:
     value: samples/cicd/app
   - name: COMMITS
     value: "1"
+  - name: ACTION
+    value: "closed"
+  - name: MERGED
+    value: "true"

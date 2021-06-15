@@ -15,6 +15,10 @@ spec:
     description: Relative directory path to Dockerfile
   - name: COMMITS
     description: Number of commits to check
+  - name: ACTION
+    description: Action performed on the pull request
+  - name: MERGED
+    description: Whether or not pull request is merged
 
   tasks:
   - name: is-build-needed
@@ -29,6 +33,10 @@ spec:
       value: $(params.CONTEXT)
     - name: COMMITS
       value: $(params.COMMITS)
+    - name: ACTION
+      value: $(params.ACTION)
+    - name: MERGED
+      value: $(params.MERGED)
   - name: get-commit-id
     taskRef:
       name: get-commit-id
