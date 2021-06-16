@@ -1,29 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: iter8-app
+  name: iter8-app-stable
   labels:
-    app: iter8-app
-    version: v1
+    app: iter8-app-stable
+    version: v40445cb
     app.kubernetes.io/instance: gitops
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: iter8-app
-      version: v1
+      app: iter8-app-stable
+      version: v40445cb
   template:
     metadata:
       labels:
-        app: iter8-app
-        version: v1
+        app: iter8-app-stable
+        version: v40445cb
     spec:
       containers:
-      - name: iter8-app
-        image: haih/helloworld:v1
+      - name: iter8-app-stable
+        image: image-registry.openshift-image-registry.svc:5000/default/helloworld:v40445cb
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8000
         env:
         - name: version
-          value: v1
+          value: v40445cb
