@@ -19,3 +19,5 @@ spec:
     value: "closed"
   - name: MERGED
     value: "true"
+  - name: BASE
+    value: "master"
