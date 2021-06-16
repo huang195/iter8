@@ -48,9 +48,9 @@ spec:
     - input: "$(tasks.is-build-needed.results.needed)"
       operator: in
       values: ["yes"]
-  - name: kaniko
+  - name: build-image
     taskRef:
-      name: kaniko
+      name: build-image
     resources:
       inputs:
       - name: source
@@ -86,4 +86,4 @@ spec:
       operator: in
       values: ["yes"]
     runAfter:
-    - kaniko
+    - build-image
