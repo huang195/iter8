@@ -10,11 +10,13 @@ spec:
     description: Whether or not pull request is merged
   - name: COMMITS
     description: Number of commits from the pull request
+  - name: BRANCH
+    description: The base branch of the pull request
   resourcetemplates:
   - apiVersion: tekton.dev/v1beta1
     kind: PipelineRun
     metadata:
-      generateName: catapp-build-and-deploy-
+      generateName: iter8-cicd-pipelinerun-
     spec:
       serviceAccountName: pipeline
       pipelineRef:
@@ -27,8 +29,10 @@ spec:
       - name: CONTEXT
         value: samples/cicd/app
       - name: ACTION
-        value: $(params.ACTION)
+        value: $(tt.params.ACTION)
       - name: MERGED
-        value: $(params.MERGED)
+        value: $(tt.params.MERGED)
       - name: COMMITS
-        value: $(params.COMMITS)
+        value: $(tt.params.COMMITS)
+      - name: BRANCH
+        value: $(tt.params.BRANCH)

@@ -22,6 +22,8 @@ spec:
     description: Action performed on the pull request
   - name: MERGED
     description: Whether or not pull request is merged
+  - name: BRANCH
+    description: The base branch of the pull request
   results:
   - name: needed
     description: If a new build is needed
@@ -35,7 +37,7 @@ spec:
       echo "action: $ACTION"
       echo "merged: $MERGED"
       echo "commits: $(params.COMMITS)"
-      if [ $ACTION != 'closed' ] || [ $MERGED != 'true' ]
+      if [ $ACTION != 'closed' ] || [ $MERGED != 'true' ] || [ $BRANCH != 'master' ]
       then
         echo "Not a merged PR"
         printf no > $(results.needed.path)
@@ -55,3 +57,5 @@ spec:
       value: $(params.ACTION)
     - name: MERGED
       value: $(params.MERGED)
+    - name: BRANCH
+      value: $(params.BRANCH)

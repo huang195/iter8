@@ -10,3 +10,5 @@ spec:
     value: $(body.pull_request.merged)
   - name: COMMITS
     value: $(body.pull_request.commits)
+  - name: BRANCH
+    value: $(body.pull_request.base.ref)
