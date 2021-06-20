@@ -69,7 +69,7 @@ Components in the CI/CD pipeline will need to modify your Github repo via creati
 Copy the token and make a Kubernetes secret from it so it can be used at runtime by the CI/CD pipeline.
 
 ```shell
-oc create secret generic github-token --from-literal=token=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
+oc create secret generic github-token --from-literal=token=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
 ## Initialize and deploy your app
