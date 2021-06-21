@@ -4,26 +4,26 @@ metadata:
   name: iter8-app-stable
   labels:
     app: iter8-app-stable
-    version: v1
+    version: vf1d98fa
     app.kubernetes.io/instance: gitops
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: iter8-app-stable
-      version: v1
+      version: vf1d98fa
   template:
     metadata:
       labels:
         app: iter8-app-stable
-        version: v1
+        version: vf1d98fa
     spec:
       containers:
       - name: iter8-app-stable
-        image: haih/helloworld:v1
+        image: image-registry.openshift-image-registry.svc:5000/default/helloworld:vf1d98fa
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8000
         env:
         - name: version
-          value: v1
+          value: vf1d98fa
