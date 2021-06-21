@@ -19,6 +19,8 @@ spec:
     description: Action performed on the pull request
   - name: MERGED
     description: Whether or not pull request is merged
+  - name: BRANCH
+    description: The base branch of the pull request
 
   tasks:
   - name: is-build-needed
@@ -37,6 +39,9 @@ spec:
       value: $(params.ACTION)
     - name: MERGED
       value: $(params.MERGED)
+    - name: BRANCH
+      value: $(params.BRANCH)
+
   - name: get-commit-id
     taskRef:
       name: get-commit-id
@@ -48,6 +53,7 @@ spec:
     - input: "$(tasks.is-build-needed.results.needed)"
       operator: in
       values: ["yes"]
+
   - name: build-image
     taskRef:
       name: build-image
@@ -67,6 +73,7 @@ spec:
     - input: "$(tasks.is-build-needed.results.needed)"
       operator: in
       values: ["yes"]
+
   - name: start-experiment
     taskRef:
       name: start-experiment

@@ -37,7 +37,7 @@ spec:
       echo "action: $ACTION"
       echo "merged: $MERGED"
       echo "commits: $(params.COMMITS)"
-      if [ $ACTION != 'closed' ] || [ $MERGED != 'true' ] || [ $BRANCH != 'master' ]
+      if [ $ACTION != 'closed' ] || [ $MERGED != 'true' ] || [ $BRANCH != 'cicd' ]
       then
         echo "Not a merged PR"
         printf no > $(results.needed.path)
