@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iter8-app-candidate
+  labels:
+    app: iter8-app-candidate
+    version: va7c5c1b
+    app.kubernetes.io/instance: gitops
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: iter8-app-candidate
+      version: va7c5c1b
+  template:
+    metadata:
+      labels:
+        app: iter8-app-candidate
+        version: va7c5c1b
+    spec:
+      containers:
+      - name: iter8-app-candidate
+        image: image-registry.openshift-image-registry.svc:5000/default/helloworld:va7c5c1b
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+        env:
+        - name: version
+          value: va7c5c1b
