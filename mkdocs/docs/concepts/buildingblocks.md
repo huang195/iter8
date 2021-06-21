@@ -4,7 +4,7 @@ template: main.html
 
 # Building Blocks
 
-> Iter8 defines a Kubernetes resource called **Experiment** that automates SLO validation, A/B, and A/B/n testing experiments. During an experiment, Iter8 can compare multiple versions, find, and safely promote the **winning version (winner)** based on business metrics and performance metrics like latency and error-rate.
+> Iter8 defines a Kubernetes resource called **Experiment** that automates A/B, A/B/n, Canary, and Conformance experiments. During an experiment, Iter8 can compare multiple versions, find,  and safely promote the **winning version (winner)** based on business metrics and SLOs.
 
 We now introduce the building blocks of an Iter8 experiment.
 
@@ -75,14 +75,9 @@ A version of your app/ML model is considered **validated**, if it satisfies the 
 
 ## Traffic engineering
 
-**Traffic engineering** refers to features such as **dark launch, traffic mirroring/shadowing, user segmentation** and **session affinity** that provide fine-grained controls over how traffic is routed to and from app versions.
+**Traffic engineering** refers to features such as **traffic mirroring/shadowing** and **user segmentation** that provide fine-grained controls over how traffic is routed to and from app versions.
 
 Iter8 enables you to take total advantage of all the traffic engineering features available in the service mesh, ingress technology, or networking layer present in your Kubernetes cluster.
-
-=== "Dark launch"
-    **Dark launch** enables you to deploy and experiment with a new version of your application/ML model in such a way that it is hidden from all (or most) of your end-users.
-
-    ![Canary](../images/mirroring.png)
 
 === "Traffic mirroring/shadowing"
     **Traffic mirroring** or **shadowing** enables experimenting with a *dark* launched version with zero-impact on end-users. Mirrored traffic is a replica of the real user requests[^1] that is routed to the dark version. Metrics are collected and evaluated for the dark version, but responses from the dark version are ignored.
@@ -94,14 +89,8 @@ Iter8 enables you to take total advantage of all the traffic engineering feature
     
     For example, in the canary experiment depicted below, requests from the country `Wakanda` may be routed to baseline or candidate; requests that are not from `Wakanda` will not participate in the experiment and are routed only to the baseline.
 
-    ![User segmentation](../images/segmentation.png)
+    ![Canary](../images/segmentation.png)
 
-=== "Session affinity"
-    During A/B or canary testing experiments, it is often necessary to ensure that the version to which a particular user's request is routed remains consistent throughout the duration of the experiment. This traffic engineering feature is called **session affinity** or **session stickiness**. Service meshes and ingress controllers can enable this feature based on HTTP cookies or request attributes such as user identity, URI, IP address prefixes, or origin. Iter8 can leverage this functionality in experiments to control how user requests are routed to versions.
-
-    For example, in the A/B testing experiment depicted below, requests from user group 1 are always routed to the baseline while requests from user group 2 are always routed to the candidate during the experiment.
-
-    ![Session affinity](../images/session-affinity-exp.png)
 ***
 
 
@@ -109,8 +98,22 @@ Iter8 enables you to take total advantage of all the traffic engineering feature
 
 When two or more versions participate in an experiment, Iter8 **recommends a version for promotion**; if the experiment yielded a winner, then the version recommended for promotion is the winner; otherwise, the version recommended for promotion is the **baseline** version of your app/ML model.
 
-Iter8 can **promote the recommended version** at the end of an experiment.
+Iter8 can optionally **promote the recommended version** at the end of an experiment.
 
 ![Canary](../images/yamljson.png)
+
+## Resource config tools
+
+Iter8 can be easily easily with Helm and Kustomize. This integration is especially useful if you use these tools for configuring Kubernetes resources needed for releases of your app/ML model.
+
+=== "Helm charts"
+    An experiment that uses `helm` charts for version promotion is illustrated below.
+
+    ![Canary](../images/helm.png)
+
+=== "Kustomize resources"
+    An experiment that uses `kustomize` resources for version promotion is illustrated below.
+
+    ![Canary](../images/kustomize.png)
 
 [^1]: It is possible to mirror only a certain percentage of the requests instead of all requests.

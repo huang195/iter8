@@ -66,14 +66,14 @@
 
       <!-- Hero image -->
       <div class="mdx-hero__image">
-        <img src="{{ base_url }}/images/illustration.png" alt="" width="1197" height="566" draggable="false">
+        <img src="{{ base_url }}/images/illustration.png" alt="" width="1075" height="606" draggable="false">
       </div>
 
       <!-- Hero content -->
       <div class="mdx-hero__content">
-        <h1><strong>SLO validation, A/B testing and Progressive Delivery</strong></h1>
+        <h1><strong>AI-driven Kubernetes experimentation platform</strong></h1>
 
-        <h2>Iter8 makes it easy to <strong>optimize business metrics</strong> and <strong>validate SLOs</strong> when deploying K8s apps/ML models.</h2>
+        <h2>Iter8 makes it easy to <strong>optimize business metrics</strong> and <strong>validate SLOs</strong> when you release new versions of Kubernetes apps/ML models.</h2>
 
         <a href="{{ base_url }}/getting-started/quick-start/" title="Quick start in 5 mins"
           class="md-button md-button--primary">
@@ -89,9 +89,9 @@
 </section>
 
 
-<section class="cards">
+<section>
   <div class="md-grid md-typeset">
-      <h1><strong>Highlights</strong></h1>
+
     <!-- Main site box descriptions -->
     <div class="top-hr">
 
@@ -100,8 +100,9 @@
           <span class="twemoji">
             {% include ".icons/material/atom.svg" %}
           </span>
-          Statistically rigorous SLO validation and A/B testing
+          Experiments
         </h2>
+        <p>Automate <strong>A/B, A/B/n, Canary, and Conformance experiments</strong>. Compare multiple versions. Find and safely promote the <strong>winning version</strong> based on business metrics and SLOs.</p>
       </div>
 
       <div class="feature-item">
@@ -109,8 +110,9 @@
           <span class="twemoji">
             {% include ".icons/material/kubernetes.svg" %}
           </span>
-          Integrate with Istio, KFServing, Knative, Seldon ... or any K8s stack of your choice
+          K8s stacks
         </h2>
+        <p>Experiment over <strong>Knative, KFserving, or Istio</strong>. Or extend Iter8 over <strong>any</strong> K8s stack of your choice by adding just a few RBAC rules.</p>
       </div>
 
       <div class="feature-item">
@@ -118,17 +120,9 @@
           <span class="twemoji">
             {% include ".icons/material/database-plus.svg" %}
           </span>
-          Builtin load generation and latency/error metrics collection
+          Metrics
         </h2>
-      </div>
-
-      <div class="feature-item">
-        <h2>
-          <span class="twemoji">
-            {% include ".icons/material/database-plus.svg" %}
-          </span>
-          Custom metrics from Prometheus, New Relic, Sysdig, Elastic ... or any database of your choice
-        </h2>
+        <p>Use metrics from <strong>any</strong> provider in your experiments, including <strong>Prometheus, New Relic, Sysdig and Elastic</strong>.</p>
       </div>
 
       <div class="feature-item">
@@ -136,8 +130,9 @@
           <span class="twemoji">
             {% include ".icons/fontawesome/solid/cogs.svg" %}
           </span>
-          AI-driven: Bayesian analysis for assessing versions and multi-armed bandit for shifting traffic
+          AI-driven
         </h2>
+        <p>Under the hood, Iter8 uses rigorous <strong>Bayesian analysis</strong> for version assessments and <strong>multi-armed bandit algorithms</strong> for traffic shifting.</p>
       </div>
 
       <div class="feature-item">
@@ -145,8 +140,9 @@
           <span class="twemoji">
             {% include ".icons/material/progress-check.svg" %}
           </span>
-          Progressive traffic shifting</strong> towards the winning version
+          Progressive rollout
         </h2>
+        <p><strong>Progressively shift traffic</strong> towards the winning version or <strong>specify a fixed traffic split</strong> during an experiment.</p>
       </div>
 
       <div class="feature-item">
@@ -154,43 +150,25 @@
           <span class="twemoji">
             {% include ".icons/material/router.svg" %}
           </span>
-          Traffic engineering: dark launch, mirroring, user segmentation, and session affinity
+          Traffic engineering
         </h2>
+        <p>Protect end-user experience with features such as <strong>mirroring, user segmentation, dark launch, and sticky sessions</strong>.</p>
+      </div>
+
+      <div class="feature-item">
+        <h2>
+          <span class="twemoji">
+            {% include ".icons/octicons/file-code-16.svg" %}
+          </span>
+          Resource config tools
+        </h2>
+        <p>Use <strong>plain YAML/JSON files, Helm, or Kustomize</strong> for configuring all the resources needed for an experiment.</p>
       </div>
 
     </div>
 
   </div>
 </section>
-
-<!-- Hero for landing page -->
-<section class="tx-container">
-  <div class="md-grid md-typeset">
-
-    <div class="tx-hero">
-      <div class=tx-card>
-        <h2>Talk to us on slack</h2>
-        <a href="https://join.slack.com/t/iter8-tools/shared_invite/zt-awl2se8i-L0pZCpuHntpPejxzLicbmw" title="Slack invite"
-        class="md-button md-button--primary">
-        Slack
-      </a>
-      <p>Interested in learning more, speaking to other contributors, or finding answers?</p>
-
-      </div>
-
-      <div class=tx-card>
-        <h2>Contributors welcome</h2>
-        <a href="{{ base_url }}/contributing/overview/" title="Contributing guide"
-        class="md-button md-button--primary">
-        Contribute
-      </a>
-      <p>Want to join the fun? New users and contributors are always welcome!</p>
-
-      </div>
-    </div>
-  </div>
-</section>
-
 
 {% endblock %}
 

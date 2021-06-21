@@ -7,7 +7,7 @@
 set -e
 
 # create kind cluster
-kind create cluster --wait 5m
+kind create cluster
 kubectl cluster-info --context kind-kind
 
 # platform setup
@@ -18,8 +18,8 @@ $ITER8/samples/knative/quickstart/platformsetup.sh istio
 echo "Creating live and dark versions"
 kubectl apply -f $ITER8/samples/knative/mirroring/service.yaml
 
-# create routing rule
-echo "Creating routing rule"
+# create Istio virtual services
+echo "Creating Istio virtual services"
 kubectl apply -f $ITER8/samples/knative/mirroring/routing-rules.yaml        
 
 # Generate requests
