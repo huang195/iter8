@@ -2,7 +2,7 @@ site_name: Iter8
 site_url: https://iter8.tools/latest
 site_author: Srinivasan Parthasarathy
 site_description: >-
-  Iter8 makes it easy to optimize business metrics and validate SLOs when you release new versions of Kubernetes apps/ML models. Quick start in 5 mins.
+  Iter8 makes it easy to optimize business metrics and validate SLOs when you deploy apps/ML models on Kubernetes. Integrate with any CI/CD/GitOps pipeline. Quick start in 5 mins.
 
 # Repository
 repo_name: iter8-tools/iter8
@@ -55,10 +55,9 @@ plugins:
         
 # Customization
 extra:
-  title: "AI-driven Kubernetes experimentation platform"
+  title: "SLO validation, A/B testing, and progressive delivery for K8s apps/ML models"
   version:
     provider: mike
-    iter8_install_tag: v0.5.1
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/iter8-tools/iter8
@@ -114,27 +113,39 @@ nav:
   - Getting Started:
     - Quick start: getting-started/quick-start.md
     - Install: getting-started/install.md
-    - Changelog: getting-started/changelog.md
     - Getting help: getting-started/help.md
   - Tutorials:
     - Testing patterns:
       - Canary: tutorials/testing-patterns/canary.md
       - Conformance: tutorials/testing-patterns/conformance.md
       - A/B (quick start): tutorials/testing-patterns/ab.md
-    - Knative-specific tutorials:
-      - Progressive canary release: tutorials/knative/canary-progressive.md
-      - Fixed split canary release: tutorials/knative/canary-fixedsplit.md
-      - Conformance testing with traffic mirroring: tutorials/knative/mirroring.md
-      - Progressive canary release with traffic segmentation: tutorials/knative/traffic-segmentation.md
-      - Useful Knative annotations: tutorials/knative/annotations.md
+    - Deployment patterns:
+      - Progressive deployment: tutorials/deployment-patterns/progressive.md
+      - FixedSplit deployment: tutorials/deployment-patterns/fixed-split.md
+    - Traffic engineering:
+      - Session affinity: tutorials/traffic-engineering/session-affinity.md
+      - User segmentation: tutorials/traffic-engineering/user-segmentation.md
+      - Traffic mirroring/shadowing: tutorials/traffic-engineering/mirroring.md
+    - GitOps:
+      - Argo CD + Istio: tutorials/gitops/argocd.md
   - Metrics:
-    - Using metrics in experiments: metrics/using-metrics.md
-    - Defining Iter8 metrics: metrics/defining-iter8-metrics.md
+    - Using metrics: metrics/using-metrics.md
+    - Builtin metrics: metrics/builtin.md
+    - Custom metrics: metrics/custom.md
+    - Mock metrics: metrics/mock.md
   - Reference:
     - Experiment resource: reference/experiment.md
     - Metric resource: reference/metrics.md
     - Tasks: reference/tasks.md
-  - Contributing: contributing.md
+    - Task Reference:
+      - Common Tasks: reference/tasks/common.md
+      - Metrics Tasks: reference/tasks/metrics.md
+      - Notification Tasks: reference/tasks/notification.md
+  - Contributing: 
+    - Overview: contributing/overview.md
+    - New K8s stack: contributing/newk8sstack.md
+    - Tutorials: contributing/tutorials.md
+    - Analytics: contributing/analytics.md
   - Roadmap: roadmap.md
   - News: news.md
 
