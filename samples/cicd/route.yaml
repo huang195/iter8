@@ -11,7 +11,7 @@ spec:
   host: "iter8-app.example.com"
   to:
     kind: Service
-    name: iter8-app
+    name: iter8-app-stable
     weight: 100
   alternateBackends:
   - kind: Service
