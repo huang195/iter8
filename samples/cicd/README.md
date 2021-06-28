@@ -89,6 +89,8 @@ replacing [YOUR_ORG] with your Github organization or username. Now, do the same
 
 ```shell
 find $ITER8/samples/gitops -name "*" -type f | xargs sed -i '' "s/MY_ORG/YOUR_ORG/"
+git commit -a -m "update reference links"
+git push origin head
 ```
 
 ### Deploy app 
@@ -98,11 +100,11 @@ oc apply -f $ITER8/samples/cicd/rbac.yaml
 oc apply -f $ITER8/samples/cicd/argocd-app.yaml
 ```
 
-Now Argo CD Web Console should show a new app called `gitops` is created. Make sure it is showing both Healthy and Synced - this might take a few minutes.
+Now Argo CD Web Console should show that a new app called `gitops` is created. Make sure it is showing both Healthy and Synced - this might take a few minutes.
 
 ## Setup Github webhook
 
-When a developer makes a change in the repo that would require a new image to be built, we want Github to send a webhook call so it triggers pipeline tools to start building the image. We first need to setup Openshift Pipeline to be ready to receive the webhook calls, and then we will go to github.com to configure the sending side of the webhook call.
+When a developer makes a change in the repo that would require a new image to be built, we want Github to send a webhook call so it triggers pipeline tools to start building the image. We first need to setup Openshift Pipeline to be ready to receive the webhook calls, and then we will go to Github to configure the sending side of the webhook call.
 
 ### Setup Openshift Pipeline
 
@@ -125,5 +127,16 @@ oc expose service el-iter8-eventlistener
 
 ### Setup Github webhook
 
-Go to github.com/[YOUR_ORG]/iter8 > Settings > Webhooks > Add webhook
+Go to github.com/[YOUR_ORG]/iter8 > Settings > Webhooks > Add webhook. To fill in `Payload URL`, run the following command:
+
+```shell
+oc get route el-iter8-eventlistener --template='http://{{.spec.host}}'
+```
+
+Set `Content-type` to `application/json`. Set `Which event` to `Let me select individual event`, and then select `Pull request` and unselect `Push`.
+
+## Start a progressive rollout
+
+Now that our application is deployed in the cluster, CI/CD pipeline configured to watch for commits from Github, it is time to see what happens when a developer merges a PR.
+
 
