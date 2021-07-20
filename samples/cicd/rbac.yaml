@@ -60,3 +60,30 @@ subjects:
 - kind: ServiceAccount
   name: iter8-handlers
   namespace: iter8-system
+---
+# Allows Prometheus to read Istio metrics
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: prometheus-reader
+  labels:
+    app.kubernetes.io/instance: gitops
+rules:
+- apiGroups: ["*"]
+  resources: ["services", "pods", "endpoints"]
+  verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: prometheus-rerader-binding
+  labels:
+    app.kubernetes.io/instance: gitops
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: prometheus-reader
+subjects:
+- kind: ServiceAccount
+  name: prometheus-k8s
+  namespace: openshift-monitoring
