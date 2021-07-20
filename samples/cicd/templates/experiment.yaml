@@ -12,14 +12,14 @@ spec:
     deploymentPattern: Progressive
     actions:
       # use built-in metric collector
-      start:
-      - task: metrics/collect
-        with:
-          versions: 
-          - name: iter8-app-stable
-            url: http://iter8-app-stable.default.svc:8000
-          - name: iter8-app-candidate
-            url: http://iter8-app-candidate.default.svc:8000
+      #start:
+      #- task: metrics/collect
+      #with:
+      #versions: 
+      #- name: iter8-app-stable
+      #url: http://iter8-app-stable.default.svc:8000
+      #- name: iter8-app-candidate
+      #url: http://iter8-app-candidate.default.svc:8000
       # when the experiment completes, promote the winning version in the Env repo
       finish:
       - task: common/exec
