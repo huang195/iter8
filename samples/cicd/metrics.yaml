@@ -15,9 +15,11 @@ spec:
   provider: prometheus
   type: Counter
   urlTemplate: http://prometheus-operated.openshift-monitoring:9091/api/v1/query
+  authType: Bearer
+  secret: default/promsecret
   headerTemplates:
   - name: Authorization
-    value: Bearer sha256Ig2qp7T622_WvlHhIrB737RiWSlsh_fgtY1Y_QhfnQg
+    value: Bearer ${token}
 ---
 apiVersion: iter8.tools/v2alpha2
 kind: Metric
@@ -37,9 +39,11 @@ spec:
   sampleSize: request-count
   type: Gauge
   urlTemplate: http://prometheus-operated.openshift-monitoring:9091/api/v1/query
+  authType: Bearer
+  secret: default/promsecret
   headerTemplates:
   - name: Authorization
-    value: Bearer sha256Ig2qp7T622_WvlHhIrB737RiWSlsh_fgtY1Y_QhfnQg
+    value: Bearer ${token}
 ---
 apiVersion: iter8.tools/v2alpha2
 kind: Metric
@@ -59,9 +63,11 @@ spec:
   sampleSize: default/request-count
   type: Gauge
   urlTemplate: http://prometheus-operated.openshift-monitoring:9091/api/v1/query
+  authType: Bearer
+  secret: default/promsecret
   headerTemplates:
   - name: Authorization
-    value: Bearer sha256Ig2qp7T622_WvlHhIrB737RiWSlsh_fgtY1Y_QhfnQg
+    value: Bearer ${token}
 ---
 apiVersion: iter8.tools/v2alpha2
 kind: Metric
@@ -82,9 +88,11 @@ spec:
   type: Gauge
   units: milliseconds
   urlTemplate: http://prometheus-operated.openshift-monitoring:9091/api/v1/query
+  authType: Bearer
+  secret: default/promsecret
   headerTemplates:
   - name: Authorization
-    value: Bearer sha256Ig2qp7T622_WvlHhIrB737RiWSlsh_fgtY1Y_QhfnQg
+    value: Bearer ${token}
 ---
 apiVersion: iter8.tools/v2alpha2
 kind: Metric
@@ -103,6 +111,8 @@ spec:
   provider: prometheus
   type: Counter
   urlTemplate: http://prometheus-operated.openshift-monitoring:9091/api/v1/query
+  authType: Bearer
+  secret: default/promsecret
   headerTemplates:
   - name: Authorization
-    value: Bearer sha256Ig2qp7T622_WvlHhIrB737RiWSlsh_fgtY1Y_QhfnQg
+    value: Bearer ${token}
