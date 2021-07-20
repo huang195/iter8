@@ -15,6 +15,12 @@ rules:
 - apiGroups: ["iter8.tools"]
   resources: ["experiments", "metrics"]
   verbs: ["*"]
+- apiGroups: ["monitoring.coreos.com"]
+  resources: ["ServiceMonitor"]
+  verbs: ["*"]
+- apiGroups: ["k8s.cni.cncf.io"]
+  resources: ["NetworkAttachmentDefinition"]
+  verbs: ["*"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
