@@ -11,7 +11,7 @@ spec:
   params:
   - name: query
     value: |
-      sum(increase(istio_requests_total{response_code=~'5..',reporter='source',destination_workload='$name',destination_workload_namespace='$namespace'}[${elapsedTime}s])) or on() vector(0)
+      sum(increase(istio_requests_total{response_code=~'5..',reporter='destination',destination_workload='$name',destination_workload_namespace='$namespace'}[${elapsedTime}s])) or on() vector(0)
   provider: prometheus
   type: Counter
   urlTemplate: https://prometheus-operated.openshift-monitoring:9091/api/v1/query
@@ -34,7 +34,7 @@ spec:
   params:
   - name: query
     value: |
-      (sum(increase(istio_requests_total{response_code=~'5..',reporter='source',destination_workload='$name',destination_workload_namespace='$namespace'}[${elapsedTime}s])) or on() vector(0)) / (sum(increase(istio_requests_total{reporter='source',destination_workload='$name',destination_workload_namespace='$namespace'}[${elapsedTime}s])) or on() vector(0))
+      (sum(increase(istio_requests_total{response_code=~'5..',reporter='destination',destination_workload='$name',destination_workload_namespace='$namespace'}[${elapsedTime}s])) or on() vector(0)) / (sum(increase(istio_requests_total{reporter='destination',destination_workload='$name',destination_workload_namespace='$namespace'}[${elapsedTime}s])) or on() vector(0))
   provider: prometheus
   sampleSize: request-count
   type: Gauge
@@ -58,7 +58,7 @@ spec:
   params:
   - name: query
     value: |
-      (sum(increase(istio_request_duration_milliseconds_bucket{le='500',reporter='source',destination_workload='$name',destination_workload_namespace='$namespace'}[${elapsedTime}s])) or on() vector(0)) / (sum(increase(istio_request_duration_milliseconds_bucket{le='+Inf',reporter='source',destination_workload='$name',destination_workload_namespace='$namespace'}[${elapsedTime}s])) or on() vector(0))
+      (sum(increase(istio_request_duration_milliseconds_bucket{le='500',reporter='destination',destination_workload='$name',destination_workload_namespace='$namespace'}[${elapsedTime}s])) or on() vector(0)) / (sum(increase(istio_request_duration_milliseconds_bucket{le='+Inf',reporter='destination',destination_workload='$name',destination_workload_namespace='$namespace'}[${elapsedTime}s])) or on() vector(0))
   provider: prometheus
   sampleSize: default/request-count
   type: Gauge
@@ -82,7 +82,7 @@ spec:
   params:
   - name: query
     value: |
-      (sum(increase(istio_request_duration_milliseconds_sum{reporter='source',destination_workload='$name',destination_workload_namespace='$namespace'}[${elapsedTime}s])) or on() vector(0)) / (sum(increase(istio_requests_total{reporter='source',destination_workload='$name',destination_workload_namespace='$namespace'}[${elapsedTime}s])) or on() vector(0))
+      (sum(increase(istio_request_duration_milliseconds_sum{reporter='destination',destination_workload='$name',destination_workload_namespace='$namespace'}[${elapsedTime}s])) or on() vector(0)) / (sum(increase(istio_requests_total{reporter='destination',destination_workload='$name',destination_workload_namespace='$namespace'}[${elapsedTime}s])) or on() vector(0))
   provider: prometheus
   sampleSize: request-count
   type: Gauge
@@ -107,7 +107,7 @@ spec:
   params:
   - name: query
     value: |
-      sum(increase(istio_requests_total{reporter='source',destination_workload='$name',destination_workload_namespace='$namespace'}[${elapsedTime}s]))
+      sum(increase(istio_requests_total{reporter='destination',destination_workload='$name',destination_workload_namespace='$namespace'}[${elapsedTime}s]))
   provider: prometheus
   type: Counter
   urlTemplate: https://prometheus-operated.openshift-monitoring:9091/api/v1/query
