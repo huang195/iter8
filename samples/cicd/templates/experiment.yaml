@@ -41,6 +41,7 @@ spec:
                   mv $TMP deployment.yaml;\
                   rm -f deployment-candidate.yaml;\
                   rm -f experiment.yaml;\
+                  rm -f fortio.yaml;\
                   if [ `git status -s | wc -l` != 0 ];\
                   then \
                     git checkout -b iter8_exp_end;\
