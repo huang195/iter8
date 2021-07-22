@@ -30,22 +30,22 @@ else
     exit 1
 fi
 
-# Step 1: Install Istio (https://istio.io/latest/docs/setup/getting-started/)
-export ISTIO_VERSION="${ISTIO_VERSION:-1.10.1}"
-echo "Installing Istio"
-WORK_DIR=$(pwd)
-TEMP_DIR=$(mktemp -d)
-cd $TEMP_DIR
-curl -L https://istio.io/downloadIstio | ISTIO_VERSION=${ISTIO_VERSION} sh -
-cd istio-${ISTIO_VERSION}
-export PATH=$PWD/bin:$PATH
-cd $WORK_DIR
-oc adm policy add-scc-to-group anyuid system:serviceaccounts:istio-system
-istioctl install --set profile=openshift -y
-oc -n istio-system expose svc/istio-ingressgateway --port=http2
-echo "Istio installed successfully"
+# Step 0: Install Istio (https://istio.io/latest/docs/setup/getting-started/)
+#export ISTIO_VERSION="${ISTIO_VERSION:-1.10.1}"
+#echo "Installing Istio"
+#WORK_DIR=$(pwd)
+#TEMP_DIR=$(mktemp -d)
+#cd $TEMP_DIR
+#curl -L https://istio.io/downloadIstio | ISTIO_VERSION=${ISTIO_VERSION} sh -
+#cd istio-${ISTIO_VERSION}
+#export PATH=$PWD/bin:$PATH
+#cd $WORK_DIR
+#oc adm policy add-scc-to-group anyuid system:serviceaccounts:istio-system
+#istioctl install --set profile=openshift -y
+#oc -n istio-system expose svc/istio-ingressgateway --port=http2
+#echo "Istio installed successfully"
 
-# Step 2: Install Iter8
+# Step 1: Install Iter8
 echo "Installing Iter8"
 kustomize build $ITER8/install/core | oc apply -f -
 oc wait crd -l creator=iter8 --for condition=established --timeout=120s

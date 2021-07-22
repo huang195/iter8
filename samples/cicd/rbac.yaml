@@ -15,12 +15,13 @@ rules:
 - apiGroups: ["iter8.tools"]
   resources: ["experiments", "metrics"]
   verbs: ["*"]
-- apiGroups: ["monitoring.coreos.com"]
-  resources: ["*"]
-  verbs: ["*"]
-- apiGroups: ["k8s.cni.cncf.io"]
-  resources: ["*"]
-  verbs: ["*"]
+# These are needed in an Istio environment
+#- apiGroups: ["monitoring.coreos.com"]
+#  resources: ["*"]
+#  verbs: ["*"]
+#- apiGroups: ["k8s.cni.cncf.io"]
+#  resources: ["*"]
+#  verbs: ["*"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
