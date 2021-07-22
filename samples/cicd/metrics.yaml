@@ -11,7 +11,8 @@ spec:
   params:
   - name: query
     value: |
-      (sum(increase(istio_requests_total{response_code=~'5..',reporter='destination',destination_workload='$name',destination_workload_namespace='$namespace'}[${elapsedTime}s])) or on() vector(0)) / (sum(increase(istio_requests_total{reporter='destination',destination_workload='$name',destination_workload_namespace='$namespace'}[${elapsedTime}s])) or on() vector(0))
+      (sum(haproxy_server_http_responses_total{code="5xx", exported_service='$name',exported_namespace='$namespace'}) or vector(0)) /
+      sum(increase(haproxy_server_http_responses_total{exported_service='$name',exported_namespace='$namespace'}[${elapsedTime}s]))
   provider: prometheus
   sampleSize: request-count
   type: Gauge
@@ -35,7 +36,7 @@ spec:
   params:
   - name: query
     value: |
-      (sum(increase(istio_request_duration_milliseconds_sum{reporter='destination',destination_workload='$name',destination_workload_namespace='$namespace'}[${elapsedTime}s])) or on() vector(0)) / (sum(increase(istio_requests_total{reporter='destination',destination_workload='$name',destination_workload_namespace='$namespace'}[${elapsedTime}s])) or on() vector(0))
+      haproxy_server_http_average_response_latency_milliseconds{exported_service='$name',exported_namespace='$namespace'} or vector(0)
   provider: prometheus
   sampleSize: request-count
   type: Gauge
@@ -60,7 +61,7 @@ spec:
   params:
   - name: query
     value: |
-      sum(increase(istio_requests_total{reporter='destination',destination_workload='$name',destination_workload_namespace='$namespace'}[${elapsedTime}s]))
+      sum(increase(haproxy_server_http_responses_total{exported_service='$name',exported_namespace='$namespace'}[${elapsedTime}s])) or vector(0)
   provider: prometheus
   type: Counter
   urlTemplate: https://prometheus-operated.openshift-monitoring:9091/api/v1/query
