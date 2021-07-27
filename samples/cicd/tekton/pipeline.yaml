@@ -81,11 +81,11 @@ spec:
     - name: VERSION
       value: $(tasks.get-commit-id.results.commit-id)
     - name: USER
-      value: huang195
+      value: MY_ORG
     - name: REPO
       value: iter8
     - name: BRANCH
-      value: cicd
+      value: master
     - name: GITHUB-TOKEN-SECRET
       value: github-token
     when:

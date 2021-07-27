@@ -28,9 +28,9 @@ spec:
           args: [ 
                  "-c",
                  "apt-get install -y git jq curl;\
-                  REPO=github.com/huang195/iter8;\
-                  BRANCH=cicd;\
-                  USER=huang195;\
+                  REPO=github.com/MY_ORG/iter8;\
+                  BRANCH=master;\
+                  USER=MY_ORG;\
                   TOKEN=`kubectl -n {{ .namespace }} get secret github-token -o json | jq -r .data.token | base64 -d`;\
                   git config --global user.email 'iter8@iter8.tools';\
                   git config --global user.name 'Iter8';\
@@ -47,7 +47,7 @@ spec:
                     git checkout -b iter8_exp_end;\
                     git commit -a -m 'update baseline';\
                     git push -f origin iter8_exp_end;\
-                    curl -u${USER}:${TOKEN} -XPOST https://api.github.com/repos/huang195/iter8/pulls -s -d \"{\\\"head\\\":\\\"iter8_exp_end\\\", \\\"base\\\":\\\"${BRANCH}\\\", \\\"body\\\":\\\"update baseline\\\", \\\"title\\\":\\\"Iter8 GitOps: end of experiment\\\"}\";\
+                    curl -u${USER}:${TOKEN} -XPOST https://api.github.com/repos/MY_ORG/iter8/pulls -s -d \"{\\\"head\\\":\\\"iter8_exp_end\\\", \\\"base\\\":\\\"${BRANCH}\\\", \\\"body\\\":\\\"update baseline\\\", \\\"title\\\":\\\"Iter8 GitOps: end of experiment\\\"}\";\
                   fi;\
                   kubectl -n {{ .namespace }} apply -f route.yaml;\
                  "

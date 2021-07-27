@@ -51,4 +51,4 @@ kustomize build $ITER8/install/core | oc apply -f -
 oc wait crd -l creator=iter8 --for condition=established --timeout=120s
 kustomize build $ITER8/install/builtin-metrics | oc apply -f -
 oc wait --for=condition=Ready --timeout=300s pods --all -n iter8-system
-
+oc adm policy add-scc-to-group anyuid system:serviceaccounts:iter8-system
