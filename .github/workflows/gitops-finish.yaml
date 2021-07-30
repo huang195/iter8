@@ -20,9 +20,10 @@ jobs:
 
     - name: Update experiment baseline version with recommended version
       env:
+        DIRPATH: "${{github.event.inputs.dirpath}}"
         FILEPATH: "${{github.event.inputs.filepath}}"
       run: |
-        export ENV="$(pwd)/samples/istio/gitops"
+        export ENV="$(pwd)/$DIRPATH"
         export TMP=`mktemp`
 
         echo "FILEPATH = $FILEPATH"

@@ -22,6 +22,7 @@ spec:
             {
               "ref":"master",
               "inputs":{
+                "dirpath": "samples/cicd",
                 "filepath": "{{.filepath}}"
               }
             }
