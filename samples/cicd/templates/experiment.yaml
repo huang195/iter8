@@ -28,6 +28,7 @@ spec:
           headers:
           - name: Accept
             value: application/vnd.github.v3+json
+          method: POST
 
       - task: common/bash
         with:
