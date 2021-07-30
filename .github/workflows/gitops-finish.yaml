@@ -32,9 +32,11 @@ jobs:
         echo "FILEPATH = $FILEPATH"
         echo "     ENV = $ENV"
         echo "     TMP = $TMP"
+        FILENAME=`echo $FILEPATH | cut -d . -f 1 | cut -d - -f 1`
+        EXTENSION=`echo $FILEPATH | cut -d . -f 2`
         sed 's/candidate/stable/g' $ENV/$FILEPATH > $TMP
-        mv $TMP $ENV/productpage.yaml
-        rm -f $ENV/productpage-candidate.yaml
+        mv $TMP $ENV/$FILENAME.$EXTENSION
+        rm -f $ENV/${FILENAME}-candidate.$EXTENSION
         rm -f $ENV/fortio.yaml
         rm -f $ENV/experiment.yaml
 
