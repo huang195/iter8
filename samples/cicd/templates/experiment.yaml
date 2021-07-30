@@ -20,7 +20,7 @@ spec:
           secret: github-token
           body:  |
             {
-              "ref":"master",
+              "ref":"cicd",
               "inputs":{
                 "filepath": "{{.filepath}}"
               }
