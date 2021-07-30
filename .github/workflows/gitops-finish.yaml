@@ -3,8 +3,11 @@ name: Update baseline version
 on:
   workflow_dispatch:
     inputs:
+      basedir:
+        description: 'Base directory of manifests'
+        required: true
       filepath:
-        description: 'Path to manifest of baseline version'
+        description: 'Path (relative to basedir) to manifest of baseline version'
         required: true
       namespace:
         description: 'Namespace where application deployed'
@@ -20,13 +23,13 @@ jobs:
 
     - name: Update experiment baseline version with recommended version
       env:
-        BASEPATH: "${{github.event.inputs.basepath}}"
+        BASEDIR: "${{github.event.inputs.basedir}}"
         FILEPATH: "${{github.event.inputs.filepath}}"
       run: |
         export ENV="$(pwd)/$BASEPATH"
         export TMP=`mktemp`
 
-        echo "FILEPATH = $FILEPATH"
+        echo "FILEPATH = $FILEDIR"
         echo "     ENV = $ENV"
         echo "     TMP = $TMP"
         sed 's/candidate/stable/g' $ENV/$FILEPATH > $TMP
