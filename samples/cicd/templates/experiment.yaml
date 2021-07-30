@@ -11,47 +11,28 @@ spec:
     # this experiment will progressively shift traffic to the winning version
     deploymentPattern: Progressive
     actions:
-      # use built-in metric collector
-      #start:
-      #- task: metrics/collect
-      #with:
-      #versions: 
-      #- name: iter8-app-stable
-      #url: http://iter8-app-stable.default.svc:8000
-      #- name: iter8-app-candidate
-      #url: http://iter8-app-candidate.default.svc:8000
       # when the experiment completes, promote the winning version in the Env repo
       finish:
-      - task: common/exec
+      - task: notification/http
         with:
-          cmd: /bin/bash
-          args: [ 
-                 "-c",
-                 "apt-get install -y git jq curl;\
-                  REPO=github.com/huang195/iter8;\
-                  BRANCH=cicd;\
-                  USER=huang195;\
-                  TOKEN=`kubectl -n {{ .namespace }} get secret github-token -o json | jq -r .data.token | base64 -d`;\
-                  git config --global user.email 'iter8@iter8.tools';\
-                  git config --global user.name 'Iter8';\
-                  git clone https://${USER}:${TOKEN}@${REPO} --branch=${BRANCH};\
-                  cd iter8/samples/cicd;\
-                  TMP=`mktemp`;\
-                  sed 's/candidate/stable/g' {{ .filepath }} > $TMP;\
-                  mv $TMP deployment.yaml;\
-                  rm -f deployment-candidate.yaml;\
-                  rm -f experiment.yaml;\
-                  rm -f fortio.yaml;\
-                  if [ `git status -s | wc -l` != 0 ];\
-                  then \
-                    git checkout -b iter8_exp_end;\
-                    git commit -a -m 'update baseline';\
-                    git push -f origin iter8_exp_end;\
-                    curl -u${USER}:${TOKEN} -XPOST https://api.github.com/repos/huang195/iter8/pulls -s -d \"{\\\"head\\\":\\\"iter8_exp_end\\\", \\\"base\\\":\\\"${BRANCH}\\\", \\\"body\\\":\\\"update baseline\\\", \\\"title\\\":\\\"Iter8 GitOps: end of experiment\\\"}\";\
-                  fi;\
-                  kubectl -n {{ .namespace }} apply -f route.yaml;\
-                 "
-                ]
+          url: https://api.github.com/repos/huang195/iter8/actions/workflows/gitops-finish.yaml/dispatches
+          authType: Bearer
+          secret: iter8-token
+          body:  |
+            {
+              "ref":"master",
+              "inputs":{
+                "filepath": "{{.filepath}}"
+              }
+            }
+          headers:
+          - name: Accept
+            value: application/vnd.github.v3+json
+
+      - task: common/bash
+        with:
+          script: |
+            kubectl -n {{ .namespace }} apply -f https://raw.githubusercontent.com/huang195/iter8/cicd/samples/cicd/route.yaml
   criteria:
     objectives: # used for validating versions
     - metric: default/mean-latency
