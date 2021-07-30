@@ -11,7 +11,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         self.send_response(HTTPStatus.OK)
         self.end_headers()
-        resp = 'Hello my world!!! (new version: %s)\n' % (version)
+        resp = 'Hello world!!! (new version: %s)\n' % (version)
         self.wfile.write(str.encode(resp))
 
 httpd = socketserver.TCPServer(('0.0.0.0', 8000), Handler)
