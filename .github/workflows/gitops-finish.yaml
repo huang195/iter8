@@ -20,10 +20,10 @@ jobs:
 
     - name: Update experiment baseline version with recommended version
       env:
-        DIRPATH: "${{github.event.inputs.dirpath}}"
+        BASEPATH: "${{github.event.inputs.basepath}}"
         FILEPATH: "${{github.event.inputs.filepath}}"
       run: |
-        export ENV="$(pwd)/$DIRPATH"
+        export ENV="$(pwd)/$BASEPATH"
         export TMP=`mktemp`
 
         echo "FILEPATH = $FILEPATH"
