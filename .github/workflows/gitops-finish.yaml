@@ -26,7 +26,7 @@ jobs:
         BASEDIR: "${{github.event.inputs.basedir}}"
         FILEPATH: "${{github.event.inputs.filepath}}"
       run: |
-        export ENV="$(pwd)/$BASEPATH"
+        export ENV="$(pwd)/$BASEDIR"
         export TMP=`mktemp`
 
         echo "FILEPATH = $FILEDIR"
