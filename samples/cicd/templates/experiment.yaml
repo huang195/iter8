@@ -20,7 +20,7 @@ spec:
           secret: github-token
           body:  |
             {
-              "ref":"cicd",
+              "ref":"master",
               "inputs":{
                 "filepath": "{{.filepath}}"
               }
@@ -33,7 +33,7 @@ spec:
       - task: common/bash
         with:
           script: |
-            kubectl -n {{ .namespace }} apply -f https://raw.githubusercontent.com/huang195/iter8/cicd/samples/cicd/route.yaml
+            kubectl -n {{ .namespace }} apply -f https://raw.githubusercontent.com/huang195/iter8/master/samples/cicd/route.yaml
   criteria:
     objectives: # used for validating versions
     - metric: default/mean-latency
