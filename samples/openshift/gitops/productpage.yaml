@@ -22,21 +22,20 @@ metadata:
   name: productpage-stable
   labels:
     app: productpage
-    version: v1
+    version: stable
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: productpage
-      version: v1
+      version: stable
   template:
     metadata:
       annotations:
         sidecar.istio.io/inject: "true"
       labels:
         app: productpage
-        version: v1
-        iter8type: stable
+        version: stable
     spec:
       serviceAccountName: bookinfo-productpage
       containers:

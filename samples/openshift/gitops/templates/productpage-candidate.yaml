@@ -21,26 +21,25 @@ kind: Deployment
 metadata:
   name: productpage-candidate
   labels:
-    app: productpage-candidate
-    version: v1
+    app: productpage
+    version: candidate
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: productpage-candidate
-      version: v1
+      app: productpage
+      version: candidate
   template:
     metadata:
       annotations:
         sidecar.istio.io/inject: "true"
       labels:
-        app: productpage-candidate
-        version: v1
-        iter8type: candidate
+        app: productpage
+        version: candidate
     spec:
       serviceAccountName: bookinfo-productpage
       containers:
-      - name: productpage-candidate
+      - name: productpage
         image: iter8/productpage:demo
         imagePullPolicy: IfNotPresent
         ports:

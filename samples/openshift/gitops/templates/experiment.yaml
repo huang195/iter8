@@ -18,26 +18,23 @@ spec:
             url: "http://productpage-candidate.default.svc.cluster.local:9080"
             qps: 8
       # when the experiment completes, promote the winning version in the Env repo
-      #finish:
-      #- task: notification/http
-      #  with:
-      #    url: https://api.github.com/repos/huang195/iter8/actions/workflows/gitops-finish.yaml/dispatches
-      #    authType: Bearer
-      #    secret: iter8-token
-      #    body:  |
-      #      {
-      #        "ref":"master", 
-      #        "inputs":{
-      #          "basedir": "samples/openshift/gitops",
-      #          "filepath": "{{.filepath}}"
-      #        }
-      #      }
-      #    headers:
-      #    - name: Accept
-      #      value: application/vnd.github.v3+json
-      #
-      #- run: |
-      #      kubectl -n {{ .namespace }} apply -f https://raw.githubusercontent.com/huang195/iter8/master/samples/istio/gitops/istio-vs.yaml
+      finish:
+      - task: notification/http
+        with:
+          url: https://api.github.com/repos/huang195/iter8/actions/workflows/gitops-finish-openshift.yaml/dispatches
+          authType: Bearer
+          secret: github-token
+          body:  |
+            {
+              "ref":"master", 
+              "inputs":{
+                "basedir": "samples/openshift/gitops",
+                "filepath": "{{.filepath}}"
+              }
+            }
+          headers:
+          - name: Accept
+            value: application/vnd.github.v3+json
   criteria:
     objectives: # used for validating versions
     - metric: iter8-system/mean-latency
@@ -53,7 +50,5 @@ spec:
     baseline:
       name: productpage-candidate
       variables:
-      - name: namespace # used by final action if this version is the winner
-        value: default
       - name: filepath
         value: productpage-candidate.yaml

@@ -21,11 +21,12 @@ kind: Service
 metadata:
   name: productpage-candidate
   labels:
-    app: productpage-candidate
+    app: productpage
     service: productpage-candidate
 spec:
   ports:
   - port: 9080
     name: http
   selector:
-    app: productpage-candidate
+    app: productpage
+    version: candidate
