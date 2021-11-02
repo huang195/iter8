@@ -6,7 +6,7 @@ spec:
   type: git
   params:
     - name: url
-      value: https://github.com/MY_ORG/iter8.git
+      value: https://github.com/huang195/iter8.git
     - name: revision
       value: master
     - name: refspec

@@ -81,7 +81,7 @@ spec:
     - name: VERSION
       value: $(tasks.get-commit-id.results.commit-id)
     - name: USER
-      value: MY_ORG 
+      value: huang195 
     - name: REPO
       value: iter8
     - name: BRANCH

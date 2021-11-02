@@ -23,7 +23,7 @@ spec:
       finish:
       - task: notification/http
         with:
-          url: https://api.github.com/repos/MY_ORG/iter8/actions/workflows/gitops-finish.yaml/dispatches
+          url: https://api.github.com/repos/huang195/iter8/actions/workflows/gitops-finish.yaml/dispatches
           authType: Bearer
           secret: github-token
           body:  |
