@@ -30,7 +30,7 @@ spec:
             {
               "ref":"master",
               "inputs":{
-                "basedir": "samples/cicd",
+                "basedir": "samples/openshift/full-cicd",
                 "filepath": "@<.filepath>@"
               }
             }
