@@ -23,7 +23,7 @@ spec:
       - if: WinnerFound()
         task: notification/http
         with:
-          url: https://api.github.com/repos/MY_ORG/iter8/actions/workflows/gitops-finish-openshift.yaml/dispatches
+          url: https://api.github.com/repos/huang195/iter8/actions/workflows/gitops-finish-openshift.yaml/dispatches
           authType: Bearer
           secret: github-token
           body:  |
@@ -40,7 +40,7 @@ spec:
       - if: not WinnerFound()
         task: notification/http
         with:
-          url: https://api.github.com/repos/MY_ORG/iter8/actions/workflows/gitops-finish-openshift.yaml/dispatches
+          url: https://api.github.com/repos/huang195/iter8/actions/workflows/gitops-finish-openshift.yaml/dispatches
           authType: Bearer
           secret: github-token
           body:  |

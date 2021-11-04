@@ -12,7 +12,7 @@ spec:
   project: default
   source:
     path: samples/openshift/full-cicd
-    repoURL: https://github.com/MY_ORG/iter8
+    repoURL: https://github.com/huang195/iter8
     targetRevision: master
   syncPolicy:
     automated:
